@@ -4,7 +4,7 @@ export HPoint, getz, dist
 
 
 # this is faster than `abs(z)`
-_mag(z::Complex)::Real = real(z*z')
+_mag(z::Number)::Real = real(z*z')
 
 """
 `HPoint(z::Complex)` creates a new point in the hyperbolic plane.
