@@ -9,7 +9,7 @@ struct HPoint
         if abs(z) > 1
             @error "Absolute value of $z is too large"
         end
-        new(z)
+        new(z,"black")
     end
 end
 
