@@ -13,7 +13,9 @@
 ### The Plane
 
 The `HyperbolicPlane` module will provide basic objects in the Hyperbolic
-plane (realized as the Poincare Disc). So far we only have the following:
+plane (realized as the Poincare Disc).
+
++ `HPlane()`: Represents the entire hyperbolic plane.
 
 ### Points
 
@@ -31,6 +33,20 @@ plane (realized as the Poincare Disc). So far we only have the following:
 + `endpoints(L)`
 
 
+## Attributes
+
+All hyperbolic objects can take arbitrary attributes. These are key-value
+pairs where the key is a `Symbol` and the values can be anything.
+```julia 
+julia> P = HPoint()
+HPoint(0.0 + 0.0im)
+
+julia> P[:color] = "red"
+"red"
+
+julia> P[:color]
+"red"
+```
 
 
 
