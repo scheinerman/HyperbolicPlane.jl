@@ -1,27 +1,37 @@
 module HyperbolicPlane
 
-export HPoint, getz, dist
+using Lifts
 
+export HObject, HPoint, getz, dist
+
+import Base: getindex, setindex!, *
 
 # this is faster than `abs(z)`
 _mag(z::Number)::Real = real(z*z')
+
+abstract type HObject end
+
+
+setindex!(X::T, val, key::Symbol) where T<:HObject = setindex!(X.attr, val, key)
+getindex(X::T, key) where T<:HObject = getindex(X.attr, key)
 
 """
 `HPoint(z::Complex)` creates a new point in the hyperbolic plane.
 The argument `z` must have absolute value less than 1.
 """
-mutable struct HPoint
+struct HPoint <: HObject
     z::Complex{Float64}
-    _color::String
+    attr::Dict{Symbol,Any}
     function HPoint(z::Complex)
         if _mag(z) >=  1
             throw(DomainError(z, "absolute value is too large"))
         end
-        new(z,"black")
+        new(z,Dict{Symbol,Any}())
     end
 end
 
 HPoint(z::Number) = HPoint(Complex(z))
+HPoint() = HPoint(0)
 
 """
 `getz(P::HPoint)` returns the point (complex number) in the
@@ -42,5 +52,8 @@ function dist(P::HPoint, Q::HPoint)
 end
 
 dist(P::HPoint) = dist(P, HPoint(0))
+
+
+include("isometry.jl")
 
 end #end of module
