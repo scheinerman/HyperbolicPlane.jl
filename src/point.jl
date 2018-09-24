@@ -1,4 +1,4 @@
-export HPoint, getz, dist, midpoint, RandomHPoint
+export HPoint, getz, dist, midpoint, RandomHPoint, between
 
 
 RandomHPoint() = HPoint(rand() * exp(2*pi*rand()*im))
@@ -79,4 +79,17 @@ function midpoint(p::HPoint, q::HPoint, thresh=THRESHOLD)::HPoint
     r = HPoint(t)
     h = inv(f)
     return h(r)
+end
+
+"""
+`between(a,b,c)` determines if the hyperbolic point `b`
+lies on the segment from `a` to `c`.
+"""
+function between(a::HPoint, b::HPoint, c::HPoint)::Bool
+    if !collinear(a,b,c)
+        return false
+    end
+
+    tri = dist(a,b)+dist(b,c)-dist(a,c)
+    return abs(tri) <= THRESHOLD * eps(1.0)
 end

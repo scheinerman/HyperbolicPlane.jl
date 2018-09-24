@@ -79,3 +79,9 @@ function collinear(L::HSegment, LL::HSegment)
     a,b = endpoints(LL)
     return collinear(a,L) && collinear(b,L)
 end
+
+
+function in(a::HPoint, L::HSegment)
+    x,y = endpoints(L)
+    return between(x,a,y)
+end 
