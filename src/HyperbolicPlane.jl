@@ -4,12 +4,15 @@ using Lifts
 
 export HObject
 
-import Base: getindex, setindex!, *, isequal, length, ==
+import Base: getindex, setindex!, *, isequal, length, ==, show
 
 # this is faster than `abs(z)`
 _mag(z::Number)::Real = real(z*z')
 
 abstract type HObject end
+
+
+THRESHOLD = 10   # Global default threshold = 10*eps(1.0)
 
 
 setindex!(X::T, val, key::Symbol) where T<:HObject = setindex!(X.attr, val, key)

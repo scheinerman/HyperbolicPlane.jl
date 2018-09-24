@@ -1,4 +1,4 @@
-export HSegment
+export HSegment, RandomHSegment, endpoints
 
 """
 `HSegment(A,B)` creates a new line segment with endpoints `A` and `B`.
@@ -12,7 +12,22 @@ struct HSegment <: HObject
     end
 end
 
+HSegment(a::Number, B::HPoint) = HSegment(HPoint(a), B)
+HSegment(A::HPoint, b::Number) = HSegment(A, HPoint(b))
+HSegment(a::Number, b::Number) = HSegment(HPoint(a), HPoint(b))
+HSegment(A::HPoint) = HSegment(A, HPoint())
+HSegment(a::Number) = HSegment(HPoint(a), HPoint())
+
+function show(io::IO, L::HSegment)
+    p,q = endpoints(L)
+    a = getz(p)
+    b = getz(q)
+    print(io,"HSegment($a,$b)")
+end
+
 endpoints(L::HSegment) = (L.A,L.B)
+
+RandomHSegment() = HSegment(RandomHPoint(), RandomHPoint())
 
 function (==)(L::HSegment, LL::HSegment)
     return (endpoints(L)==endpoints(LL)) || (endpoints(L)==(LL.B,LL.A))

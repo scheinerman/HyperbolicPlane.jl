@@ -21,6 +21,10 @@ end
 HPoint(z::Number) = HPoint(Complex(z))
 HPoint() = HPoint(0)
 
+function show(io::IO,P::HPoint)
+    print(io,"HPoint($(getz(P)))")
+end 
+
 """
 `getz(P::HPoint)` returns the point (complex number) in the
 interior of the unit disc that represents `P`.
@@ -41,7 +45,7 @@ end
 
 dist(P::HPoint) = dist(P, HPoint(0))
 
-(==)(P::HPoint,Q::HPoint) = getz(P)==getz(Q) || dist(P,Q) == 0
+(==)(P::HPoint,Q::HPoint) = _mag(getz(P)-getz(Q)) <= THRESHOLD*eps(1.0)
 
 function _dist(t::Real)
     delta = 2*t*t/(1-t*t)

@@ -10,15 +10,27 @@
 
 ## Objects
 
+### The Plane
+
 The `HyperbolicPlane` module will provide basic objects in the Hyperbolic
 plane (realized as the Poincare Disc). So far we only have the following:
 
+### Points
+
 + `HPoint(z)`: Creates a new point in the hyperbolic plane given by the
 `Complex` number `z` (which must have absolute value less than 1).
-
-## Functions
-
 + `dist(p,q)`: return the distance between points `p` and `q`.
++ `midpoint(p,q)`
+
+### Line Segments
+
++ `HSegment(a,b)`: Create a new line segment joining points `a` and `b`
+(each specified as either a complex number or an `HPoint`).
++ `length(L)`
++ `midpoint(L)`
++ `endpoints(L)`
+
+
 
 
 
