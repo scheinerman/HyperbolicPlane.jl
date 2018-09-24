@@ -23,7 +23,7 @@ HPoint() = HPoint(0)
 
 function show(io::IO,P::HPoint)
     print(io,"HPoint($(getz(P)))")
-end 
+end
 
 """
 `getz(P::HPoint)` returns the point (complex number) in the
@@ -52,7 +52,7 @@ function _dist(t::Real)
     return acosh(1+delta)
 end
 
-function solve_dist(goal,left=0,right=1,thresh=10)
+function solve_dist(goal,left=0,right=1,thresh=THRESHOLD)
     t = (right+left)/2
     d = _dist(t)
     if abs(d-goal) < thresh*eps(1.0)
@@ -72,7 +72,7 @@ end
 `midpoint(p,q)` finds the mid point of the line segment
 from `p` to `q`
 """
-function midpoint(p::HPoint, q::HPoint, thresh=5)::HPoint
+function midpoint(p::HPoint, q::HPoint, thresh=THRESHOLD)::HPoint
     if p==q
         return p
     end

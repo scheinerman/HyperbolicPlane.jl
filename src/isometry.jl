@@ -3,6 +3,8 @@ export move2zero, move2xplus
 
 (f::Lift)(p::HPoint) = HPoint(f(getz(p)))
 
+(f::Lift)(L::HSegment) = HSegment(f(L.A), f(L.B))
+
 const in_up = Lift(-im, -im, 1, -1)
 const up_in = Lift(-1, im, -1, -im)
 
