@@ -4,7 +4,7 @@ using Lifts
 
 export HObject
 
-import Base: getindex, setindex!, *, isequal, length, ==, show
+import Base: getindex, setindex!, isequal, length, ==, show, adjoint, -
 
 # this is faster than `abs(z)`
 _mag(z::Number)::Real = real(z*z')

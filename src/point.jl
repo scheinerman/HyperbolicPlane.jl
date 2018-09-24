@@ -43,6 +43,9 @@ function dist(P::HPoint, Q::HPoint)
     return acosh(1+delta)
 end
 
+adjoint(P::HPoint) = HPoint(getz(P)')
+(-)(P::HPoint) = HPoint(-getz(P))
+
 dist(P::HPoint) = dist(P, HPoint(0))
 
 (==)(P::HPoint,Q::HPoint) = _mag(getz(P)-getz(Q)) <= THRESHOLD*eps(1.0)

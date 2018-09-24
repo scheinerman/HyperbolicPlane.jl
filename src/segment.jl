@@ -35,3 +35,13 @@ end
 
 midpoint(L::HSegment) = midpoint(endpoints(L)...)
 length(L::HSegment) = dist(endpoints(L)...)
+
+function adjoint(L::HSegment)
+    a,b = endpoints(L)
+    return HSegment(a',b')
+end
+
+function (-)(L::HSegment)
+    a,b = endpoints(L)
+    return HSegment(-a,-b)
+end 
