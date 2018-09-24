@@ -1,4 +1,5 @@
-export HSegment, RandomHSegment, endpoints
+export HSegment, RandomHSegment, endpoints, reflect_across
+export collinear
 
 """
 `HSegment(A,B)` creates a new line segment with endpoints `A` and `B`.
@@ -44,4 +45,37 @@ end
 function (-)(L::HSegment)
     a,b = endpoints(L)
     return HSegment(-a,-b)
-end 
+end
+
+"""
+`reflect_across(p::HPoint,L::HSegment)` returns the point `q`
+formed by refecting `p` across the line segment `L`
+"""
+function reflect_across(p::HPoint, L::HSegment)
+    f = move2xplus(L)
+    pp = f(p)
+    return (inv(f))(pp')
+end
+
+
+"""
+`collinear` checks if the arguments are collinear. Arguments are:
++ `a,b,c`: three points
++ `a,L`: point and segment (in either order)
++ `L,LL`: two segments
+"""
+function collinear(a::HPoint, b::HPoint, c::HPoint)::Bool
+    if a==b || b==c || a==c
+        return true
+    end
+    aa = reflect_across(a,HSegment(b,c))
+    return aa == a
+end
+
+collinear(a::HPoint, L::HSegment) = collinear(a,endpoints(L)...)
+collinear(L::HSegment, a::HPoint) = collinear(a,L)
+
+function collinear(L::HSegment, LL::HSegment)
+    a,b = endpoints(LL)
+    return collinear(a,L) && collinear(b,L)
+end

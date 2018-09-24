@@ -55,38 +55,28 @@ function _dist(t::Real)
     return acosh(1+delta)
 end
 
-function solve_dist(goal,left=0,right=1,thresh=THRESHOLD)
-    t = (right+left)/2
-    d = _dist(t)
-    if abs(d-goal) < thresh*eps(1.0)
-        return t
-    end
-    if d < goal
-        return solve_dist(goal,t,right,thresh)
-    else
-        return solve_dist(goal,left,t,thresh)
-    end
-    # Should never get here!
+
+function solve_dist(d::Real)
+    ex = exp(d)
+    return (ex-1)/(ex+1)
 end
 
 
 
 """
 `midpoint(p,q)` finds the mid point of the line segment
-from `p` to `q`
+from `p` to `q`. Also `midpoint(L::HSegment)`.
 """
 function midpoint(p::HPoint, q::HPoint, thresh=THRESHOLD)::HPoint
     if p==q
         return p
     end
     d = dist(p,q)
-    f = move2zero(p)
-    qq = f(q)
-    g = move2xplus(qq)
+    f = move2xplus(p,q)
 
-    t = solve_dist(d/2,0,1,thresh)
+    t = solve_dist(d/2)
 
     r = HPoint(t)
-    h = inv(g*f)
+    h = inv(f)
     return h(r)
 end
