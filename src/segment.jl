@@ -19,6 +19,9 @@ HSegment(a::Number, b::Number) = HSegment(HPoint(a), HPoint(b))
 HSegment(A::HPoint) = HSegment(A, HPoint())
 HSegment(a::Number) = HSegment(HPoint(a), HPoint())
 
+(∨)(A::HPoint, B::HPoint) = HSegment(A,B)
+
+
 function show(io::IO, L::HSegment)
     p,q = endpoints(L)
     a = getz(p)
@@ -84,4 +87,4 @@ end
 function in(a::HPoint, L::HSegment)
     x,y = endpoints(L)
     return between(x,a,y)
-end 
+end

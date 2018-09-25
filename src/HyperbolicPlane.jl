@@ -1,10 +1,11 @@
 module HyperbolicPlane
 
-using Lifts
+using Lifts, AbstractLattices, Plots
 
 export HObject, HPlane
 
-import Base: getindex, setindex!, isequal, length, ==, show, adjoint, -, in 
+import Base: getindex, setindex!, isequal, length, ==, show, adjoint, -, in
+import AbstractLattices: ∨
 
 # this is faster than `abs(z)`
 _mag(z::Number)::Real = real(z*z')
@@ -32,6 +33,8 @@ show(io::IO, A::HPlane) = print(io,"HPlane()")
 
 include("point.jl")
 include("segment.jl")
+include("line.jl")
 include("isometry.jl")
+include("drawing.jl")
 
 end #end of module
