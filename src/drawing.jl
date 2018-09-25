@@ -18,7 +18,7 @@ function draw_segment(a::Real,b::Real,c::Real,d::Real; opts...)
 end
 
 function draw_point(x::Real, y::Real, r::Real=2; opts...)
-    plot!([x],[y],marker=r,opts...)
+    plot!([x],[y],marker=r;opts...)
 end
 
 
