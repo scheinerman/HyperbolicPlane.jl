@@ -36,5 +36,6 @@ include("segment.jl")
 include("line.jl")
 include("isometry.jl")
 include("drawing.jl")
+include("attributes.jl")
 
 end #end of module
