@@ -1,6 +1,6 @@
 module HyperbolicPlane
 
-using Lifts, AbstractLattices, Plots
+using LinearFractionalTransformations, AbstractLattices, Plots
 
 export HObject, HPlane
 

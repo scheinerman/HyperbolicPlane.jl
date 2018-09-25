@@ -1,30 +1,30 @@
 export move2zero, move2xplus, rotation
 
 
-(f::Lift)(p::HPoint) = HPoint(f(getz(p)))
+(f::LFT)(p::HPoint) = HPoint(f(getz(p)))
 
-(f::Lift)(L::HSegment) = HSegment(f(L.A), f(L.B))
+(f::LFT)(L::HSegment) = HSegment(f(L.A), f(L.B))
 
-const in_up = Lift(-im, -im, 1, -1)
-const up_in = Lift(-1, im, -1, -im)
+const in_up = LFT(-im, -im, 1, -1)
+const up_in = LFT(-1, im, -1, -im)
 
 
 """
 `move2zero(P::Hpoint)`
-returns a `Lift` that's an isometry of H^2 that maps `P` to the origin.
+returns a `LFT` that's an isometry of H^2 that maps `P` to the origin.
 """
-function move2zero(z::Complex)::Lift
+function move2zero(z::Complex)::LFT
     # map to upper half plane and find x-displacement
     zz = in_up(z)
     x = real(zz)
 
     # move horizontally to place above origin
-    f = Lift(1, -x, 0, 1)
+    f = LFT(1, -x, 0, 1)
     zz = f(zz)
 
     # move down to 0 + im
     y = imag(zz)
-    g =  Lift( 1, -y*im, 1, y*im )
+    g =  LFT( 1, -y*im, 1, y*im )
 
     return g*f*in_up
 end
@@ -35,16 +35,16 @@ move2zero(P::HPoint) = move2zero(getz(P))
 `rotation(theta)` is an isometry of H^2 corresponding to a
 rotation about the origin of the amount `theta`
 """
-rotation(theta::Real)= Lift( exp(im*theta), 0, 0, 1)
+rotation(theta::Real)= LFT( exp(im*theta), 0, 0, 1)
 
 
 """
 `move2xplus(P::HPoint)` returns an isometry of H^2 that maps `P` onto
 the positive real axis.
 """
-function move2xplus(z::Complex)::Lift
+function move2xplus(z::Complex)::LFT
     if z == 0
-        return Lift()
+        return LFT()
     end
     return rotation(-theta)
 end
