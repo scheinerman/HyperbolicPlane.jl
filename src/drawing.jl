@@ -1,6 +1,5 @@
 using Plots
 
-
 function draw_circle(x::Real, y::Real, r::Real; opts...)
     f(t) = r*cos(t) + x
     g(t) = r*sin(t) + y
@@ -17,11 +16,9 @@ function draw_segment(a::Real,b::Real,c::Real,d::Real; opts...)
     plot!([a,c],[b,d];opts...)
 end
 
-function draw_point(x::Real, y::Real, r::Real=2; opts...)
+function draw_point(x::Real, y::Real, r::Real=4; opts...)
     plot!([x],[y],marker=r;opts...)
 end
-
-
 
 function finish()
     plot!(aspectratio=1, legend=false, axis=false, grid=false)
