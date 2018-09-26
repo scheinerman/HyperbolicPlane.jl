@@ -121,21 +121,18 @@ end
 
 function draw_test(s=0,t=1)
     plot()
+    n = 10
+    plist = [ RandomHPoint() for _ = 1:n ]
+    for p in plist
+        draw(p)
+    end
 
-    L = HLine(s,t)
-    P = point_on_line(L)
-
-    set_color(P,:red)
-    set_color(L,:green)
-
-    draw(L)
-    draw(P)
-
-    a = exp(im*L.s)
-    b = exp(im*L.t)
-    c = getz(P)
-
-    draw_circle(a,b,c,color=:red)
+    for i=1:n-1
+        for j=i+1:n
+            L = HSegment(plist[i],plist[j])
+            draw(L)
+        end
+    end
 
 
     draw(HPlane())
