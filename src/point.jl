@@ -14,7 +14,10 @@ struct HPoint <: HObject
         if _mag(z) >=  1
             throw(DomainError(z, "absolute value is too large"))
         end
-        new(z,Dict{Symbol,Any}())
+        P = new(z,Dict{Symbol,Any}())
+        set_color(P)
+        set_radius(P)
+        return P
     end
 end
 

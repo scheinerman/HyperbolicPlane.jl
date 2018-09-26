@@ -1,6 +1,6 @@
 module HyperbolicPlane
 
-using LinearFractionalTransformations, AbstractLattices, Plots
+using LinearFractionalTransformations, AbstractLattices
 
 export HObject, HPlane
 
@@ -23,7 +23,11 @@ getindex(X::T, key) where T<:HObject = getindex(X.attr, key)
 struct HPlane <: HObject
     attr::Dict{Symbol,Any}
     function HPlane()
-        new(Dict{Symbol,Any}())
+        HP = new(Dict{Symbol,Any}())
+        set_color(HP)
+        set_thickness(HP)
+        set_line_style(HP,:dot)
+        return HP
     end
 end
 
@@ -35,7 +39,8 @@ include("point.jl")
 include("segment.jl")
 include("line.jl")
 include("isometry.jl")
-include("drawing.jl")
 include("attributes.jl")
+
+# include("drawing.jl")
 
 end #end of module

@@ -9,7 +9,11 @@ struct HSegment <: HObject
     B::HPoint
     attr::Dict{Symbol,Any}
     function HSegment(a::HPoint,b::HPoint)
-        new(a,b,Dict{Symbol,Any}())
+        S = new(a,b,Dict{Symbol,Any}())
+        set_color(S)
+        set_thickness(S)
+        set_line_style(S)
+        return S
     end
 end
 
