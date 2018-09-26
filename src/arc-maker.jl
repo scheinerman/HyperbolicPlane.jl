@@ -2,6 +2,8 @@
 
 using LinearAlgebra
 
+export find_center, non_linear_check
+
 """
 `find_center(a,b,c)`: Given three points in the complex plane,
 find the point `z` that is equidistant from all three. If the three

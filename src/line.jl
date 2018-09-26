@@ -29,19 +29,25 @@ function RandomHLine()::HLine
 end
 
 
-# This doesn't quite work right. Need to find c on the shorter arc.
+# This doesn't work (yet)
 
 function point_on_line(L::HLine)
     s = L.s
     t = L.t
-
+    # end points of the arc
     a = exp(im*s)
     b = exp(im*t)
-    c = exp(im*(s+t)/2)
-    m = (a+b)/2
 
-    v = m-c
-    z = c-2m
+    f = LFT(-im,-im,1,-1)  # map from Poincare disc to upper half plane
 
-    return HPoint(z)
+    aa = f(a)
+    bb = f(b)
+    r = abs(aa-bb)/2
+
+    cc = (aa+bb)/2 + r*im
+
+    z = (inv(f))(cc)
+
+
+    return HPoint(z)  # debug
 end

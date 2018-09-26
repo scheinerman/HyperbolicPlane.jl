@@ -40,6 +40,7 @@ include("segment.jl")
 include("line.jl")
 include("isometry.jl")
 include("attributes.jl")
+include("arc-maker.jl")
 
 # include("drawing.jl")
 

@@ -8,7 +8,7 @@ function set_color(P::HPoint, col=:black)
     nothing
 end
 
-function set_radius(P::HPoint, rad=2)
+function set_radius(P::HPoint, rad=1)
     P[:marker] = rad
 end
 
