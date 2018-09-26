@@ -1,4 +1,5 @@
 using Plots
+# export draw
 
 function draw_circle(x::Real, y::Real, r::Real; opts...)
     f(t) = r*cos(t) + x
@@ -91,11 +92,24 @@ end
 function draw(L::HLine)
     t1 = L.s
     t2 = L.t
+
+    if t1==t2
+        return
+    end
+
     x = cos(t1)
     y = sin(t1)
     xx = cos(t2)
     yy = sin(t2)
-    draw_segment(x,y,xx,yy; L.attr...)   #THIS IS WRONG just a placeholder
+
+    if abs(t1-t2)==pi
+        draw_segment(x,y,xx,yy;L.attr...)
+    else
+        P = point_on_line(L)
+        m = getz(P)
+        draw_arc(x+im*y, m, xx+im*yy; L.attr...)
+    end
+
 end
 
 
