@@ -9,5 +9,5 @@ function set_color(P::HPoint, col="black")
 end
 
 function set_radius(P::HPoint, rad=4)
-    P[:marker] = r
+    P[:marker] = rad
 end
