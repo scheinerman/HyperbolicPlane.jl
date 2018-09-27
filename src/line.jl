@@ -34,20 +34,21 @@ end
 function point_on_line(L::HLine)
     s = L.s
     t = L.t
-    # end points of the arc
-    a = exp(im*s)
-    b = exp(im*t)
 
-    f = LFT(-im,-im,1,-1)  # map from Poincare disc to upper half plane
-
-    aa = f(a)
-    bb = f(b)
-    r = abs(aa-bb)/2
-
-    cc = (aa+bb)/2 + r*im
-
-    z = (inv(f))(cc)
+    if abs(abs(s-t) - pi) < THRESHOLD*eps(1.0)
+        return HPoint()
+    end
 
 
-    return HPoint(z)  # debug
+    alpha = (s+t)/2
+
+    if abs(alpha-s) > pi/2
+        alpha = alpha-pi
+    end
+
+
+    r = abs(sec(alpha))-abs(tan(alpha))
+    z = r * exp(s + alpha * im)
+    return HPoint(z)
+
 end

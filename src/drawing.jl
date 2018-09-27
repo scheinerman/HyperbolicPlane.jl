@@ -20,6 +20,22 @@ end
 function draw_arc(x::Real, y::Real, r::Real, t1::Real, t2::Real; opts...)
     f(t) = r*cos(t) + x
     g(t) = r*sin(t) + y
+
+    t1 = mod(t1, 2pi)
+    t2 = mod(t2, 2pi)
+
+    if t1==t2
+        return
+    end
+
+    if t1 > t2
+        t1,t2 = t2,t1
+    end
+
+    if t2-t1>pi
+        t1 += 2pi
+    end
+
     plot!(f,g,t1,t2;opts...)
 end
 
@@ -27,13 +43,8 @@ end
 function draw_arc(a::Complex, b::Complex, c::Complex; opts...)
     z = find_center(a,b,c)
     r = abs(b-z)
-    t1 = mod(angle(a-z), 2pi)
-    t2 = mod(angle(c-z), 2pi)
-
-    if t2-t1 > pi
-        t1,t2 = t2,t1
-    end
-
+    t1 = angle(a-z)
+    t2 = angle(c-z)
     draw_arc(real(z), imag(z), r, t1, t2; opts...)
 end
 
@@ -82,7 +93,7 @@ function draw(S::HSegment)
     zz = getz(Q)
     w = getz(M)
 
-    if imag( (z-w)/(zz-w) ) == 0   # they're linear
+    if abs(imag( (z-w)/(zz-w) )) < THRESHOLD*eps(1.0)   # they're linear
         draw_segment(z,zz;S.attr...)
     else
         draw_arc(z,w,zz; S.attr...)
@@ -102,7 +113,7 @@ function draw(L::HLine)
     xx = cos(t2)
     yy = sin(t2)
 
-    if abs(t1-t2)==pi
+    if abs(abs(t1-t2)-pi) < THRESHOLD*eps(1.0)
         draw_segment(x,y,xx,yy;L.attr...)
     else
         P = point_on_line(L)
@@ -118,25 +129,36 @@ function draw(HP::HPlane)
 end
 
 
+############################
 
-function draw_test(s=0,t=1)
+function seg_draw_test(S::HSegment)
+    P,Q = endpoints(S)
+    M  = midpoint(S)
+    set_color(M,:red)
     plot()
-    n = 10
-    plist = [ RandomHPoint() for _ = 1:n ]
-    for p in plist
-        draw(p)
-    end
+    draw(S)
+    draw(P)
+    draw(Q)
+    draw(M)
+    draw(HPlane())
+    finish()
+end
 
-    for i=1:n-1
+seg_draw_test(P::HPoint, Q::HPoint) = seg_draw_test(HSegment(P,Q))
+
+
+function draw_test(n::Int=7)
+    plot()
+
+    for i=0:n-1
         for j=i+1:n
-            L = HSegment(plist[i],plist[j])
+            L = HLine(2pi*i/n,2pi*j/n)
             draw(L)
         end
-    end
-
+    end 
 
     draw(HPlane())
 
     finish()
-    plot!(grid=true, axis=true)
+    return plist
 end
