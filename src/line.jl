@@ -39,16 +39,22 @@ function point_on_line(L::HLine)
         return HPoint()
     end
 
-
-    alpha = (s+t)/2
-
-    if abs(alpha-s) > pi/2
-        alpha = alpha-pi
+    # del is 1/2 the size of the angle between s and t
+    del = (t-s)/2
+    if del>pi
+        del -= pi
     end
 
+    r = abs(sec(del))-abs(tan(del))
 
-    r = abs(sec(alpha))-abs(tan(alpha))
-    z = r * exp(s + alpha * im)
+    # bi is the angle bisector
+
+    bi = (s+t)/2
+    if (bi-s)>pi/2
+        bi -= pi
+    end
+
+    z = r * exp(bi * im)
     return HPoint(z)
 
 end

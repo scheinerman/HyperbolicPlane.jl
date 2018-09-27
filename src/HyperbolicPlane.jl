@@ -1,6 +1,6 @@
 module HyperbolicPlane
 
-using LinearFractionalTransformations, AbstractLattices
+using LinearFractionalTransformations, AbstractLattices, Plots
 
 export HObject, HPlane
 
@@ -41,7 +41,6 @@ include("line.jl")
 include("isometry.jl")
 include("attributes.jl")
 include("arc-maker.jl")
-
-# include("drawing.jl")
+include("drawing.jl")
 
 end #end of module

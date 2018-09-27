@@ -1,5 +1,9 @@
-using Plots
-# export draw
+export draw, finish
+
+
+# The draw_ functions play a supporting role to the `draw` function
+# which we may call on HObjects
+
 
 function draw_circle(x::Real, y::Real, r::Real; opts...)
     f(t) = r*cos(t) + x
@@ -14,8 +18,6 @@ function draw_circle(a::Complex, b::Complex, c::Complex; opts...)
     x,y = reim(z)
     draw_circle(x,y,r; opts...)
 end
-
-
 
 function draw_arc(x::Real, y::Real, r::Real, t1::Real, t2::Real; opts...)
     f(t) = r*cos(t) + x
@@ -68,13 +70,30 @@ end
 
 draw_point(z::Complex; opts...) = draw_point(real(z),imag(z); opts...)
 
+
+
+
+"""
+`finish()` is used to clean up a drawing after various calls to `draw`.
+It removes the axes and the grid lines, and sets the aspect ratio to one.
+"""
 function finish()
     plot!(aspectratio=1, legend=false, axis=false, grid=false)
 end
 
 
 #############################################################
+# Here we define how to draw all the various objects we've  #
+# defined in this module.                                   #
+#############################################################
 
+"""
+`draw(X)` draws the hyperbolic object `X` in a graphics window.
+
+The typical sequence of drawing starts with the `plot()` function
+(from the `Plots` module), then various to calls to `draw` and then
+concludes with a call to `finish()` (see the help message for that function).
+"""
 function draw(P::HPoint)
     x,y = reim(getz(P))
     draw_point(x,y;P.attr...)
@@ -126,39 +145,4 @@ end
 
 function draw(HP::HPlane)
     draw_circle(0,0,1; HP.attr...)
-end
-
-
-############################
-
-function seg_draw_test(S::HSegment)
-    P,Q = endpoints(S)
-    M  = midpoint(S)
-    set_color(M,:red)
-    plot()
-    draw(S)
-    draw(P)
-    draw(Q)
-    draw(M)
-    draw(HPlane())
-    finish()
-end
-
-seg_draw_test(P::HPoint, Q::HPoint) = seg_draw_test(HSegment(P,Q))
-
-
-function draw_test(n::Int=7)
-    plot()
-
-    for i=0:n-1
-        for j=i+1:n
-            L = HLine(2pi*i/n,2pi*j/n)
-            draw(L)
-        end
-    end 
-
-    draw(HPlane())
-
-    finish()
-    return plist
 end
