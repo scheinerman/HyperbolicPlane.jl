@@ -1,4 +1,4 @@
-export HPoint, getz, dist, midpoint, RandomHPoint, between
+export HPoint, getz, dist, midpoint, RandomHPoint, between, polar
 
 
 RandomHPoint() = HPoint(rand() * exp(2*pi*rand()*im))
@@ -6,6 +6,9 @@ RandomHPoint() = HPoint(rand() * exp(2*pi*rand()*im))
 """
 `HPoint(z::Complex)` creates a new point in the hyperbolic plane.
 The argument `z` must have absolute value less than 1.
+
+`HPoint(r,theta)` creates a new point with polar coordinates
+`(r,theta)`. See also: `polar`.
 """
 struct HPoint <: HObject
     z::Complex{Float64}
@@ -51,6 +54,21 @@ adjoint(P::HPoint) = HPoint(getz(P)')
 
 dist(P::HPoint) = dist(P, HPoint(0))
 
+
+HPoint(r::Real, theta::Real) = HPoint( solve_dist(r) * exp(im*theta) )
+
+
+
+
+"""
+`polar(P::HPoint)` gives the polar coordinates of `P`
+"""
+function polar(P::HPoint)
+    r = dist(P)
+    theta = angle(getz(P))
+    return (r,theta)
+end
+
 (==)(P::HPoint,Q::HPoint) = _mag(getz(P)-getz(Q)) <= THRESHOLD*eps(1.0)
 
 function _dist(t::Real)
@@ -58,7 +76,9 @@ function _dist(t::Real)
     return acosh(1+delta)
 end
 
-
+"""
+`solve_dist(d)` is the inverse of `_dist()`
+"""
 function solve_dist(d::Real)
     ex = exp(d)
     return (ex-1)/(ex+1)
