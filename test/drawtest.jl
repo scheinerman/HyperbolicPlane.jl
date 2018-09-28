@@ -1,6 +1,6 @@
 # File I use just to check stuff out.
 
-using HyperbolicPlane, Plots 
+using HyperbolicPlane, Plots
 
 function seg_draw_test(S::HSegment)
     P,Q = endpoints(S)
@@ -34,5 +34,18 @@ function draw_test(n::Int=7)
 
     draw(HPlane())
 
+    finish()
+end
+
+
+function extend_test()
+    P = RandomHPoint()
+    Q = RandomHPoint()
+    S = P + Q
+    L = P ∨ Q
+    set_line_style(L,:dash)
+    set_thickness(S,4)
+    set_color(S,:red)
+    draw([L,S,P,Q,HPlane()])
     finish()
 end

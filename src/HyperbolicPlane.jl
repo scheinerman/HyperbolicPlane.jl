@@ -1,10 +1,10 @@
 module HyperbolicPlane
 
-using LinearFractionalTransformations, AbstractLattices, Plots
+using LinearFractionalTransformations, Plots
 
 export HObject, HPlane
 
-import Base: getindex, setindex!, isequal, length, ==, show, adjoint, -, in
+import Base: getindex, setindex!, isequal, length, ==, show, adjoint, -, in, +
 import AbstractLattices: ∨
 
 # this is faster than `abs(z)`

@@ -49,8 +49,6 @@ function move2xplus(z::Complex)::LFT
     return rotation(-theta)
 end
 
-
-
 move2xplus(P::HPoint) = move2xplus(getz(P))
 
 

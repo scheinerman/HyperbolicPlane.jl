@@ -1,4 +1,5 @@
-export HLine, RandomHLine, point_on_line
+export HLine, RandomHLine, point_on_line, ∨
+
 
 struct HLine <: HObject
     s::Float64
@@ -21,6 +22,26 @@ struct HLine <: HObject
         return L
     end
 end
+
+
+function HLine(P::HPoint, Q::HPoint)
+    @assert P != Q "Need two distinct points to determine a line"
+    f = move2xplus(P,Q)
+    g = inv(f)
+    a = angle(g(-1))
+    b = angle(g(1))
+    return HLine(a,b)
+end
+
+(∨)(P::HPoint, Q::HPoint) = HLine(P,Q)
+
+function HLine(S::HSegment)
+    P,Q = endpoints(S)
+    return HLine(P,Q)
+end
+
+
+
 
 function RandomHLine()::HLine
     x = 2*pi*rand()

@@ -142,7 +142,12 @@ function draw(L::HLine)
 
 end
 
-
 function draw(HP::HPlane)
     draw_circle(0,0,1; HP.attr...)
+end
+
+function draw(list::Array{HObject,1})
+    for X in list
+        draw(X)
+    end
 end

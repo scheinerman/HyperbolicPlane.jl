@@ -28,6 +28,7 @@ plane (realized as the Poincare Disc).
 
 + `HSegment(a,b)`: Create a new line segment joining points `a` and `b`
 (each specified as either a complex number or an `HPoint`).
++ `a+b`: create a segment from points `a` and `b`.
 + `length(L)`
 + `midpoint(L)`
 + `endpoints(L)`
@@ -36,6 +37,8 @@ plane (realized as the Poincare Disc).
 
 + `HLine(s,t)`: Create a new line. The line joins the points at infinity
 on the boundary of the Poincare disk at locations `exp(im*s)` and `exp(im*t)`.
+Also `P ∨ Q` for points.
++ `HLine(S)` for a segment. 
 + `point_on_line(L)` returns a point on the line `L`.
 
 

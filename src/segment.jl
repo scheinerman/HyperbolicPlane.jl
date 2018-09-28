@@ -23,7 +23,7 @@ HSegment(a::Number, b::Number) = HSegment(HPoint(a), HPoint(b))
 HSegment(A::HPoint) = HSegment(A, HPoint())
 HSegment(a::Number) = HSegment(HPoint(a), HPoint())
 
-(∨)(A::HPoint, B::HPoint) = HSegment(A,B)
+(+)(A::HPoint, B::HPoint) = HSegment(A,B)
 
 
 function show(io::IO, L::HSegment)
