@@ -62,7 +62,8 @@ function meet_test()
         plot!(title="Intersection found!")
         P = meet(L,LL)
         set_color(P,:red)
+        set_radius(P,4)
         draw(P)
     end
     finish()
-end 
+end
