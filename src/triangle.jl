@@ -9,6 +9,7 @@ struct HTriangle <: HObject
     C::HPoint
     attr::Dict{Symbol,Any}
     function HTriangle(a::HPoint,b::HPoint,c::HPoint)
+        @assert a!=b && b!=c && a!=c "Three points must be distinct"
         S = new(a,b,c,Dict{Symbol,Any}())
         set_color(S)
         set_thickness(S)
@@ -32,6 +33,7 @@ endpoints(T::HTriangle) = (T.A,T.B,T.C)
 `angle(A,B,C)` finds the angle betwen `BA` and `BC`.
 """
 function angle(A::HPoint, B::HPoint, C::HPoint)
+    @assert A!=B && C!=B "Point B must not equal A or C"
     f = move2xplus(B,A)
     z = getz(f(C))
     return abs(angle(z))
@@ -58,3 +60,8 @@ function (+)(S::HSegment, C::HPoint)
 end
 
 (+)(C::HPoint, S::HSegment) = S+C
+
+function show(io::IO,T::HTriangle)
+    a,b,c = endpoints(T)
+    print(io,"HTriangle($a,$b,$c)")
+end 

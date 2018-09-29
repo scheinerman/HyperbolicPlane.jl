@@ -1,4 +1,5 @@
 export HLine, RandomHLine, point_on_line, ∨
+export meet_check, meet, ∧
 
 
 struct HLine <: HObject
@@ -8,10 +9,8 @@ struct HLine <: HObject
     function HLine(a::Real,b::Real)
         a = mod(a,2pi)
         b = mod(b,2pi)
-        if a==b
-            a = 0*a
-            b = 0*b
-        end
+        @assert a!=b "Invalid line"
+
         if a>b
             a,b = b,a
         end
@@ -95,3 +94,69 @@ function point_on_line(L::HLine)
     z = r * exp(bi * im)
     return HPoint(z)
 end
+
+"""
+`meet_check(L::HLine,LL::HLine)` determines if two lines intersect.
+"""
+function meet_check(L::HLine, LL::HLine)::Bool
+    s = L.s
+    t = L.t
+    ss = LL.s
+    tt = LL.t
+
+    if s < ss < t < tt
+        return true
+    end
+    if ss < s < tt < t
+        return true
+    end
+    return false
+end
+
+# Find the complex point that's the euclidean center of the line as drawn
+function e_center(L::HLine)::Complex
+    s = L.s
+    t = L.t
+
+    if abs((t-s)-pi) < THRESHOLD*eps(1.0)
+        return Inf + Inf*im
+    end
+    P = point_on_line(L)
+    a = exp(im*s)
+    b = exp(im*t)
+    c = getz(P)
+    return find_center(a,b,c)
+end
+
+"""
+`meet(L,LL)` finds a point on lines `L` and `LL` or throws an
+error if they don't intersect. See `meet_check`.
+"""
+function meet(L::HLine, LL::HLine)
+    @assert meet_check(L,LL) "The lines do not intersect"
+
+    s = L.s   # artificially rotate to 0
+    t = L.t
+    ss = LL.s
+    tt = LL.t
+
+    a = exp(im*(t-s))
+    b = exp(im*(ss-s))
+    c = exp(im*(tt-s))
+
+    A = real(in_up(a))
+    B = real(in_up(b))
+    C = real(in_up(c))
+
+    R = abs(B-C)/2
+    Z = (B+C)/2
+
+    y = sqrt(R^2 - (A-Z)^2)
+
+    p = up_in(A + im*y)*exp(im*s)
+
+    return HPoint(p )
+
+end
+
+(∧)(L::HLine, LL::HLine) = meet(L,LL)

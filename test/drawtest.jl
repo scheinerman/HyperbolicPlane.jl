@@ -49,3 +49,20 @@ function extend_test()
     draw([L,S,P,Q,HPlane()])
     finish()
 end
+
+function meet_test()
+    L = RandomHLine()
+    LL = RandomHLine()
+    plot()
+    draw([L,LL,HPlane()])
+
+    if !meet_check(L,LL)
+        plot!(title="No intersection")
+    else
+        plot!(title="Intersection found!")
+        P = meet(L,LL)
+        set_color(P,:red)
+        draw(P)
+    end
+    finish()
+end 
