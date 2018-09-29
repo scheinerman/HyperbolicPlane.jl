@@ -5,6 +5,7 @@ using LinearFractionalTransformations, Plots
 export HObject, HPlane
 
 import Base: getindex, setindex!, isequal, length, ==, show, adjoint, -, in, +
+import Base: angle
 import AbstractLattices: ∨
 
 # this is faster than `abs(z)`
@@ -38,6 +39,7 @@ show(io::IO, A::HPlane) = print(io,"HPlane()")
 include("point.jl")
 include("segment.jl")
 include("line.jl")
+include("triangle.jl")
 
 
 include("isometry.jl")

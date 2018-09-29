@@ -1,9 +1,11 @@
-export move2zero, move2xplus, rotation
+export move2zero, move2xplus, rotation, reflect_across
 
 
 (f::LFT)(p::HPoint) = HPoint(f(getz(p)))
 
 (f::LFT)(L::HSegment) = HSegment(f(L.A), f(L.B))
+
+(f::LFT)(T::HTriangle) = HTriangle(f(T.A), f(T.B), f(T.C)) 
 
 const in_up = LFT(-im, -im, 1, -1)
 const up_in = LFT(-1, im, -1, -im)

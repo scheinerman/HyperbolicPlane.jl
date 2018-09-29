@@ -151,3 +151,15 @@ function draw(list::Array{T,1}) where T <: HObject
         draw(X)
     end
 end
+
+function draw(T::HTriangle)
+    AB = T.A + T.B
+    BC = T.B + T.C
+    AC = T.A + T.C
+    copy_attr(AB,T)
+    copy_attr(BC,T)
+    copy_attr(AC,T)
+    draw(AB)
+    draw(BC)
+    draw(AC)
+end
