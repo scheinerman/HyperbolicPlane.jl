@@ -1,21 +1,19 @@
 using HyperbolicPlane, Plots
 
 """
-`complete_graph(n,rad=0.5)` draws the complete graph
+`complete_graph(n,rad=2)` draws the complete graph
 on `n` vertices in the Hyperbolic plane (using straight line
-segments for edges).
+segments for edges). The vertices are distance `rad` from the
+origin.
 """
-function complete_graph(n::Int=5, radius::Real = 0.5)
+function complete_graph(n::Int=5, radius::Real = 2)
 
     if n <= 0
         throw(DomainError(n,"n must be positive"))
     end
 
-    if radius >= 1 || radius <= 0
-        throw(DomainError(radius,"radius must be strictly between 0 and 1"))
-    end
 
-    pts = [ HPoint(radius * exp(2pi*k*im/n)) for k=1:n ]
+    pts = [ HPoint(radius, 2pi*k/n) for k=1:n ]
     plot()
     for j=1:n-1
         for k=j+1:n
