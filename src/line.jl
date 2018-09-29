@@ -23,7 +23,15 @@ struct HLine <: HObject
     end
 end
 
+function show(io::IO, L::HLine)
+    s = L.s
+    t = L.t
+    print(io,"HLine($s,$t)")
+end
 
+"""
+`HLine(P,Q)` creates a new line from the given two points.
+"""
 function HLine(P::HPoint, Q::HPoint)
     @assert P != Q "Need two distinct points to determine a line"
     f = move2xplus(P,Q)
@@ -35,6 +43,9 @@ end
 
 (∨)(P::HPoint, Q::HPoint) = HLine(P,Q)
 
+"""
+`HLine(S::HSegment)` extends the segment `S` to give a (new) line.
+"""
 function HLine(S::HSegment)
     P,Q = endpoints(S)
     return HLine(P,Q)
@@ -42,7 +53,12 @@ end
 
 
 
+"""
+`RandomHLine()` returns a random line in the hyperbolic plane.
 
+Algorithm: choose two values `s,t` in `[0,2pi)` uniformly at random
+and then make the line from `exp(s*im)` to `exp(t*im)`.
+"""
 function RandomHLine()::HLine
     x = 2*pi*rand()
     y = 2*pi*rand()
@@ -50,8 +66,9 @@ function RandomHLine()::HLine
 end
 
 
-# This doesn't work (yet)
-
+"""
+`point_on_line(L)` returns a (finite) point on the hyperbolic line `L`.
+"""
 function point_on_line(L::HLine)
     s = L.s
     t = L.t
@@ -77,5 +94,4 @@ function point_on_line(L::HLine)
 
     z = r * exp(bi * im)
     return HPoint(z)
-
 end

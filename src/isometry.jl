@@ -46,6 +46,7 @@ function move2xplus(z::Complex)::LFT
     if z == 0
         return LFT()
     end
+    theta = angle(z)
     return rotation(-theta)
 end
 
@@ -67,3 +68,30 @@ positive real axis.
 """
 move2xplus(A::HPoint, B::HPoint) = move2xplus(getz(A),getz(B))
 move2xplus(L::HSegment) = move2xplus(endpoints(L)...)
+
+"""
+`move2xplus(L::HLine)` returns a linear fractional transformation
+that maps points on `L` to the positive x-axis but is *not* an
+isometry of the hyperbolic plane.
+"""
+function move2xplus(L::HLine)
+    a = exp(im*L.s)
+    b = getz(point_on_line(L))
+    c = exp(im*L.t)
+    f = LFT(a,b,c)
+    return f
+end
+
+
+
+"""
+`reflect_across(p::HPoint,L::HSegment/HLine)` returns the point `q`
+formed by refecting `p` across the line segment/line `L`.
+"""
+function reflect_across(p::HPoint, L::Union{HLine,HSegment})
+    f = move2xplus(L)
+    z = getz(p)
+    zz = f(z)'
+    w = (inv(f))(zz)
+    return HPoint(w)
+end

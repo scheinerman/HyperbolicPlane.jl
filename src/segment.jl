@@ -55,13 +55,15 @@ function (-)(L::HSegment)
 end
 
 """
-`reflect_across(p::HPoint,L::HSegment)` returns the point `q`
-formed by refecting `p` across the line segment `L`
+`reflect_across(p::HPoint,L::HSegment/HLine)` returns the point `q`
+formed by refecting `p` across the line segment/line `L`.
 """
-function reflect_across(p::HPoint, L::HSegment)
+function reflect_across(p::HPoint, L)
     f = move2xplus(L)
-    pp = f(p)
-    return (inv(f))(pp')
+    z = getz(p)
+    zz = f(z)'
+    w = (inv(f))(zz)
+    return HPoint(w)
 end
 
 
