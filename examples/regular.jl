@@ -1,14 +1,14 @@
 using HyperbolicPlane, Plots
-n = 5
-r = 0.9
-points = [ HPoint(r * exp(2*k*pi*im/n)) for k=1:n ]
 
-plot()
-for j=1:n-1
-    S = HSegment(points[j], points[j+1])
-    draw(S)
+function regular(n::Int=5, r::Real=1.0)
+    plot()
+    pts = [ HPoint(r, (k/n)*2pi) for k=0:n ]
+    for P in pts
+        set_radius(P,3)
+    end
+
+    segs = [ HSegment(pts[k],pts[k+1]) for k=1:n ]
+    draw([segs;pts])
+    draw(HPlane())
+    finish()
 end
-S = HSegment(points[end], points[1])
-draw(S)
-draw(HPlane())
-finish()
