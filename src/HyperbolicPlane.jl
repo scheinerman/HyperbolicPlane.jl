@@ -5,7 +5,7 @@ using LinearFractionalTransformations, Plots
 export HObject, HPlane
 
 import Base: getindex, setindex!, isequal, length, ==, show, adjoint, -, in, +
-import Base: angle
+import Base: angle, in, issubset
 import AbstractLattices: ∨
 
 # this is faster than `abs(z)`
@@ -14,7 +14,7 @@ _mag(z::Number)::Real = real(z*z')
 abstract type HObject end
 
 
-THRESHOLD = 10   # Global default threshold = 10*eps(1.0)
+THRESHOLD = 100   # Global default threshold = THRESHOLD*eps(1.0)
 
 
 setindex!(X::T, val, key::Symbol) where T<:HObject = setindex!(X.attr, val, key)

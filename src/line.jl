@@ -160,3 +160,20 @@ function meet(L::HLine, LL::HLine)
 end
 
 (∧)(L::HLine, LL::HLine) = meet(L,LL)
+
+
+
+function in(a::HPoint, L::HLine)
+    P = point_on_line(L)
+    aa = exp(L.s*im)
+    bb = getz(P)
+    cc = exp(L.t*im)
+    f = LFT(aa,bb,cc)
+    z = f(getz(a))
+    return abs(imag(z)) < THRESHOLD*eps(1.0)
+end
+
+function issubset(S::HSegment, L::T) where T <: Union{HSegment,HLine}
+    P,Q = endpoints(S)
+    return in(P,L) && in(Q,L)
+end
