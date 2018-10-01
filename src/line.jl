@@ -22,6 +22,8 @@ struct HLine <: HObject
     end
 end
 
+(==)(L::HLine, LL::HLine) = abs(L.s-LL.s)<THRESHOLD*eps(1.) && abs(L.t-LL.t)<THRESHOLD*eps(1.)
+
 function show(io::IO, L::HLine)
     s = L.s
     t = L.t
@@ -128,6 +130,19 @@ function e_center(L::HLine)::Complex
     return find_center(a,b,c)
 end
 
+# Fine the euclidean radius
+function e_radius(L::HLine)::Real
+    s = exp(im*L.s)
+    t = exp(im*L.t)
+    z = e_center(L)
+    if isinf(z)
+        return Inf
+    end
+    r1 = abs(z-s)
+    r2 = abs(z-t)
+    return (r1+r2)/2
+end
+
 """
 `meet(L,LL)` finds a point on lines `L` and `LL` or throws an
 error if they don't intersect. See `meet_check`.
@@ -161,17 +176,26 @@ end
 
 (∧)(L::HLine, LL::HLine) = meet(L,LL)
 
+#
+# function in(P::HPoint, L::HLine)
+#     z = e_center(L)
+#     r = e_radius(L)
+#     if isinf(r)   # line goes through 0 case
+#         f = rotation(-angle(L.s))
+#         PP = f(P)
+#         y = imag(getz(PP))
+#         return abs(y) < THRESHOLD*eps(1.)
+#     end
+#     d = abs(z-getz(P))
+#     return abs(d-r) < THRESHOLD*eps(1.)
+# end
 
-
-function in(a::HPoint, L::HLine)
-    P = point_on_line(L)
-    aa = exp(L.s*im)
-    bb = getz(P)
-    cc = exp(L.t*im)
-    f = LFT(aa,bb,cc)
-    z = f(getz(a))
-    return abs(imag(z)) < THRESHOLD*eps(1.0)
+function in(P::HPoint, L::HLine)
+    PP = reflect_across(P,L)
+    return P == PP
 end
+
+
 
 function issubset(S::HSegment, L::T) where T <: Union{HSegment,HLine}
     P,Q = endpoints(S)
