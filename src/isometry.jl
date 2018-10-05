@@ -5,7 +5,7 @@ export move2zero, move2xplus, rotation, reflect_across
 
 (f::LFT)(L::HSegment) = HSegment(f(L.A), f(L.B))
 
-(f::LFT)(T::HTriangle) = HTriangle(f(T.A), f(T.B), f(T.C)) 
+(f::LFT)(T::HTriangle) = HTriangle(f(T.A), f(T.B), f(T.C))
 
 const in_up = LFT(-im, -im, 1, -1)
 const up_in = LFT(-1, im, -1, -im)
@@ -89,6 +89,10 @@ end
 """
 `reflect_across(p::HPoint,L::HSegment/HLine)` returns the point `q`
 formed by refecting `p` across the line segment/line `L`.
+
+Also:
++ `reflect_across(S::HSegment, L)`
++ `reflect_across(T::HTriangle, L)`
 """
 function reflect_across(p::HPoint, L::Union{HLine,HSegment})
     f = move2xplus(L)
@@ -96,4 +100,20 @@ function reflect_across(p::HPoint, L::Union{HLine,HSegment})
     zz = f(z)'
     w = (inv(f))(zz)
     return HPoint(w)
+end
+
+function reflect_across(S::HSegment, L::Union{HLine,HSegment})
+    A,B = endpoints(S)
+    AA = reflect_across(A,L)
+    BB = reflect_across(B,L)
+    return HSegment(AA,BB)
+end
+
+
+function reflect_across(T::HTriangle, L::Union{HLine,HSegment})
+    A,B,C = endpoints(T)
+    AA = reflect_across(A,L)
+    BB = reflect_across(B,L)
+    CC = reflect_across(C,L)
+    return HTriangle(AA,BB,CC)
 end
