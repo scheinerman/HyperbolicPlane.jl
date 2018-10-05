@@ -28,8 +28,13 @@ x2 = length(P+M) + length(M+Q)
 T = P+Q+M
 @test area(T) < 100*eps(1.0)
 
+
 L = HLine(1,3)
 LL = HLine(2,pi)
 P = meet(L,LL)
 @test in(P,L)
 @test in(P,LL)
+
+TT = reflect_across(T,L)
+TT = reflect_across(TT,L)
+@test T == TT
