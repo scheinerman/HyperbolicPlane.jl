@@ -49,7 +49,15 @@ function dist(P::HPoint, Q::HPoint)
     return acosh(1+delta)
 end
 
+"""
+`adjoint(X::HObject)` creates a new `HObject` by reflecting `X`
+across the x-axis.
+"""
 adjoint(P::HPoint) = HPoint(getz(P)')
+
+"""
+`-X` for an `HObject` reflects `X` through the origin.
+"""
 (-)(P::HPoint) = HPoint(-getz(P))
 
 dist(P::HPoint) = dist(P, HPoint(0))

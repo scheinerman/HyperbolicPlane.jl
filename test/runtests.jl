@@ -38,3 +38,14 @@ P = meet(L,LL)
 TT = reflect_across(T,L)
 TT = reflect_across(TT,L)
 @test T == TT
+
+
+S = RandomHSegment()
+L = HLine(S)
+SS = S'
+LL = HLine(SS)
+@test L == LL'
+
+SS = -S
+LL = HLine(SS)
+@test L == -LL

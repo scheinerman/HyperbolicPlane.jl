@@ -176,23 +176,21 @@ end
 
 (∧)(L::HLine, LL::HLine) = meet(L,LL)
 
-#
-# function in(P::HPoint, L::HLine)
-#     z = e_center(L)
-#     r = e_radius(L)
-#     if isinf(r)   # line goes through 0 case
-#         f = rotation(-angle(L.s))
-#         PP = f(P)
-#         y = imag(getz(PP))
-#         return abs(y) < THRESHOLD*eps(1.)
-#     end
-#     d = abs(z-getz(P))
-#     return abs(d-r) < THRESHOLD*eps(1.)
-# end
-
 function in(P::HPoint, L::HLine)
     PP = reflect_across(P,L)
     return P == PP
+end
+
+function adjoint(L::HLine)
+    s = L.s
+    t = L.t
+    return HLine(-s,-t)
+end
+
+function (-)(L::HLine)
+    s = L.s
+    t = L.t
+    return HLine(pi+s,pi+t)
 end
 
 
