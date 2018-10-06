@@ -1,4 +1,4 @@
-export HTriangle, RandomHTriangle, angle, area
+export HTriangle, RandomHTriangle, angle, angles, area
 
 """
 `HTriangle(A,B,C)` creates a new hyperbolic triangle.
@@ -52,10 +52,10 @@ function angle(A::HPoint, B::HPoint, C::HPoint)
 end
 
 """
-`angle(T::HTriangle)` returns a triple containing the angles
+`angles(T::HTriangle)` returns a triple containing the angles
 at the three corners of the triangle.
 """
-function angle(T::HTriangle)
+function angles(T::HTriangle)
     (a,b,c) = endpoints(T)
     alist = [angle(b,a,c), angle(a,b,c), angle(a,c,b)]
     return sort(alist)
@@ -75,7 +75,7 @@ end
 """
 `area(T::HTriangle)` returns the area of the triangle.
 """
-area(T::HTriangle) = pi - sum(angle(T))
+area(T::HTriangle) = pi - sum(angles(T))
 
 function (+)(S::HSegment, C::HPoint)
     A,B = endpoints(S)
