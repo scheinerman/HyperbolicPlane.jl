@@ -1,4 +1,4 @@
-export HPolygon, add_point!, npoints, RandomHPolygon
+export HPolygon, add_point!, npoints, RandomHPolygon, sides
 
 """
 `HPolygon()` creates a new polygon (with no points).
@@ -30,6 +30,30 @@ add_point!(X::HPolygon, P::HPoint) = push!(X.plist,P)
 of the polygon.
 """
 endpoints(X::HPolygon) = deepcopy(X.plist)
+
+
+"""
+`sides(P:::HPolygon/HTriangle)` returns a list of the line segments
+that are the sides of the polygon.
+"""
+function sides(X::HPolygon)::Array{HSegment,1}
+    n = npoints(X)
+    if n < 2
+        return HSegment[]
+    end
+
+    result = Array{HSegment,1}(undef,n)
+    for k=1:n-1
+        a = X.plist[k]
+        b = X.plist[k+1]
+        result[k] = a+b
+    end
+    result[end] = X.plist[end] + X.plist[1]
+    return result
+end
+
+sides(T::HTriangle) = sides(HPolygon(T))
+
 
 """
 `npoints(X::HPolygon)` returns the number of points on the polygon.

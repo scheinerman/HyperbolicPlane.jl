@@ -158,34 +158,13 @@ end
 
 draw(args...) = draw(collect(args))
 
-function draw(T::HTriangle)
-    AB = T.A + T.B
-    BC = T.B + T.C
-    AC = T.A + T.C
-    copy_attr(AB,T)
-    copy_attr(BC,T)
-    copy_attr(AC,T)
-    draw(AB)
-    draw(BC)
-    draw(AC)
-end
 
-
-function draw(X::HPolygon)
-    np = npoints(X)
-    if np < 2
-        return
-    end
-
-    for j = 1:np-1
-        S = X.plist[j] + X.plist[j+1]
+function draw(X::Union{HPolygon,HTriangle})
+    for S in sides(X)
         copy_attr(S,X)
         draw(S)
     end
-
-    S = X.plist[end]+X.plist[1]
-    copy_attr(S,X)
-    draw(S)
+    draw()
 end
 
 draw(C::HContainer) = draw(collect(C))
