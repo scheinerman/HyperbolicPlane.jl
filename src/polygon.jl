@@ -79,3 +79,43 @@ adjoint(P::HPolygon) = HPolygon(adjoint.(P.plist))
 function show(io::IO,X::HPolygon)
     print(io,"HPolygon with $(npoints(X)) points")
 end
+
+# require 0 <= k < n
+"""
+`_cycle(A,k)` returns a `k`-step shift of `A`. We require
+`k` to be in the interval `[0,n-1]` where `n=length(A)`.
+No checking is done.
+"""
+function _cycle(A::Array{T,1}, k::Int) where T
+    n = length(A)
+    B = Array{T,1}(undef,n)
+    for t = 1:n-k
+        @inbounds B[t] = A[t+k]
+    end
+    for t = 1:k
+        @inbounds B[n-k+t] = A[t]
+    end
+    return B
+end
+
+"""
+`_cyclic_equal(A,B)` checks if some cyclic shift of one list
+equals the other.
+"""
+function _cyclic_equal(A::Array{S,1}, B::Array{T,1}) where {S,T}
+    n = length(A)
+    if length(B) != n
+        return false
+    end
+    for s=0:n-1
+        if A == _cycle(B,s)
+            return true
+        end
+    end
+    return false
+end
+
+
+
+(==)(X::HPolygon, Y::HPolygon) = _cyclic_equal(X.plist, Y.plist) ||
+    _cyclic_equal(X.plist,reverse(Y.plist))

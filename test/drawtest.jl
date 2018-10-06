@@ -10,8 +10,9 @@ r = rotation(t)
 
 for k=1:5
     draw(P)
-    P = r(P)
+    global P = r(P)
 end
 
 draw(HPlane())
 finish()
+savefig("foo.pdf")

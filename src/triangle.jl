@@ -31,14 +31,15 @@ endpoints(T::HTriangle) = [T.A,T.B,T.C]
 
 
 function (==)(T::HTriangle,TT::HTriangle)
-    a,b,c = endpoints(T)
-    aa,bb,cc = endpoints(TT)
-    return  (a==aa && b==bb && c==cc) ||
-            (a==aa && b==cc && c==bb) ||
-            (a==bb && b==aa && c==cc) ||
-            (a==bb && b==cc && c==bb) ||
-            (a==cc && b==aa && c==bb) ||
-            (a==cc && b==cc && c==bb)
+    Ts = endpoints(T)
+    TTs = endpoints(TT)
+    return _cyclic_equal(Ts,TTs)|| _cyclic_equal(Ts,reverse(TTs))
+    # return  (a==aa && b==bb && c==cc) ||
+    #         (a==aa && b==cc && c==bb) ||
+    #         (a==bb && b==aa && c==cc) ||
+    #         (a==bb && b==cc && c==bb) ||
+    #         (a==cc && b==aa && c==bb) ||
+    #         (a==cc && b==cc && c==bb)
 end
 
 """
