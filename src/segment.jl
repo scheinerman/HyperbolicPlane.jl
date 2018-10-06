@@ -32,7 +32,7 @@ function show(io::IO, L::HSegment)
     print(io,"HSegment($a,$b)")
 end
 
-endpoints(L::HSegment) = (L.A,L.B)
+endpoints(L::HSegment) = [L.A, L.B]
 
 RandomHSegment() = HSegment(RandomHPoint(), RandomHPoint())
 

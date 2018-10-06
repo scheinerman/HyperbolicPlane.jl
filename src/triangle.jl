@@ -27,7 +27,7 @@ RandomHTriangle() = HTriangle(RandomHPoint(), RandomHPoint(), RandomHPoint())
 """
 `endpoints(T::HTriangle)` returns the corner points of the triangle.
 """
-endpoints(T::HTriangle) = (T.A,T.B,T.C)
+endpoints(T::HTriangle) = [T.A,T.B,T.C]
 
 
 function (==)(T::HTriangle,TT::HTriangle)
@@ -69,7 +69,7 @@ end
 function (-)(T::HTriangle)
     a,b,c = endpoints(T)
     return HTriangle(-a,-b,-c)
-end 
+end
 
 
 """

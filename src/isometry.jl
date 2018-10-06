@@ -7,6 +7,11 @@ export move2zero, move2xplus, rotation, reflect_across
 
 (f::LFT)(T::HTriangle) = HTriangle(f(T.A), f(T.B), f(T.C))
 
+function (f::LFT)(X::HPolygon)
+    pts = f.(X.plist)
+    return HPolygon(pts)
+end 
+
 const in_up = LFT(-im, -im, 1, -1)
 const up_in = LFT(-1, im, -1, -im)
 

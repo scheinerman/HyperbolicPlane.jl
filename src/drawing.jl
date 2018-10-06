@@ -169,3 +169,21 @@ function draw(T::HTriangle)
     draw(BC)
     draw(AC)
 end
+
+
+function draw(X::HPolygon)
+    np = npoints(X)
+    if np < 2
+        return
+    end
+
+    for j = 1:np-1
+        S = X.plist[j] + X.plist[j+1]
+        copy_attr(S,X)
+        draw(S)
+    end
+
+    S = X.plist[end]+X.plist[1]
+    copy_attr(S,X)
+    draw(S)
+end
