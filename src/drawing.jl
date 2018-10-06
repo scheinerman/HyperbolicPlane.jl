@@ -187,3 +187,5 @@ function draw(X::HPolygon)
     copy_attr(S,X)
     draw(S)
 end
+
+draw(C::HContainer) = draw(collect(C))

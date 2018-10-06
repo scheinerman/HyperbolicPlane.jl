@@ -58,6 +58,8 @@ include("triangle.jl")
 include("polygon.jl")
 include("regular.jl")
 
+include("container.jl")
+
 
 include("isometry.jl")
 include("attributes.jl")
