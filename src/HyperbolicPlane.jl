@@ -56,6 +56,7 @@ include("segment.jl")
 include("line.jl")
 include("triangle.jl")
 include("polygon.jl")
+include("regular.jl")
 
 
 include("isometry.jl")

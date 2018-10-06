@@ -66,7 +66,14 @@ function RandomHPolygon(n::Int)
     return HPolygon(pts)
 end
 
-#
+
+
+adjoint(P::HPolygon) = HPolygon(adjoint.(P.plist))
+
+"""
+`-X` for an `HObject` reflects `X` through the origin.
+"""
+(-)(P::HPolygon) = HPolygon((-).(P.plist))
 
 
 function show(io::IO,X::HPolygon)
