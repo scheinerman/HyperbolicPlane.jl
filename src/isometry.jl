@@ -1,16 +1,32 @@
 export move2zero, move2xplus, rotation, reflect_across
 
 
+# This code enables LFT's to act on HObjects.
+
 (f::LFT)(p::HPoint) = HPoint(f(getz(p)))
 
 (f::LFT)(L::HSegment) = HSegment(f(L.A), f(L.B))
 
 (f::LFT)(T::HTriangle) = HTriangle(f(T.A), f(T.B), f(T.C))
 
+function (f::LFT)(L::HLine)
+    s = L.s
+    t = L.t
+    w = exp(s*im)
+    z = exp(t*im)
+    ww = f(w)
+    zz = f(z)
+    ss = angle(ww)
+    tt = angle(zz)
+    return HLine(ss,tt)
+end
+
+
+
 function (f::LFT)(X::HPolygon)
     pts = f.(X.plist)
     return HPolygon(pts)
-end 
+end
 
 const in_up = LFT(-im, -im, 1, -1)
 const up_in = LFT(-1, im, -1, -im)
@@ -92,12 +108,8 @@ end
 
 
 """
-`reflect_across(p::HPoint,L::HSegment/HLine)` returns the point `q`
-formed by refecting `p` across the line segment/line `L`.
-
-Also:
-+ `reflect_across(S::HSegment, L)`
-+ `reflect_across(T::HTriangle, L)`
+`reflect_across(X::HObject,L::HSegment/HLine)` returns the object
+formed by refecting `X across the line segment/line `L`.
 """
 function reflect_across(p::HPoint, L::Union{HLine,HSegment})
     f = move2xplus(L)
@@ -114,7 +126,6 @@ function reflect_across(S::HSegment, L::Union{HLine,HSegment})
     return HSegment(AA,BB)
 end
 
-
 function reflect_across(T::HTriangle, L::Union{HLine,HSegment})
     A,B,C = endpoints(T)
     AA = reflect_across(A,L)
@@ -122,3 +133,27 @@ function reflect_across(T::HTriangle, L::Union{HLine,HSegment})
     CC = reflect_across(C,L)
     return HTriangle(AA,BB,CC)
 end
+
+function reflect_across(X::HPolygon, L::Union{HLine,HSegment})
+    pts = [ reflect_across(p,L) for p in X.plist ]
+    return HPolygon(pts)
+end
+
+function reflect_across(X::HLine, L::Union{HLine,HSegment})
+    a = exp(im * L.s)
+    b = getz(point_on_line(L))
+    c = exp(im * L.t)
+    f = LFT(a,-1,b,0,c,1)
+
+
+    Y = f(X)
+    s = Y.s
+    t = Y.t
+    Z = HLine(-s,-t)
+    return (inv(f))(Z)
+end
+
+
+
+
+reflect_across(X::HPlane) = HPlane()
