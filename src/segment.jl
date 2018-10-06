@@ -1,4 +1,4 @@
-export HSegment, RandomHSegment, endpoints, collinear
+export HSegment, RandomHSegment, endpoints, collinear, bisector
 
 """
 `HSegment(A,B)` creates a new line segment with endpoints `A` and `B`.
@@ -81,3 +81,22 @@ function in(a::HPoint, L::HSegment)
     x,y = endpoints(L)
     return between(x,a,y)
 end
+
+"""
+`bisector(S::HSegment)` yields an `HLine` that's the perpendicular
+bisector of the segment `S`. May also be invoked `bisector(A,B)`
+where `A` and `B` are points.
+"""
+function bisector(S::HSegment)
+    A,B = endpoints(S)
+    @assert A != B "The end points of the segment must be distinct"
+    P = midpoint(S)
+    f = move2xplus(P,B)
+    g = inv(f)
+    zs = g(im)
+    zt = g(-im)
+
+    return HLine(angle(zs), angle(zt))
+end
+
+bisector(A::HPoint, B::HPoint) = bisector(A+B)
