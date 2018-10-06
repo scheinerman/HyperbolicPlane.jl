@@ -90,7 +90,9 @@ end
 """
 `draw(X)` draws the hyperbolic object `X` in a graphics window.
 
-The typical sequence of drawing starts with the `plot()` function
+`draw` may be applied to a list of hyperbolic objects.
+
+The typical sequence of drawing starts by clearing the screen with the `plot()` function
 (from the `Plots` module), then various to calls to `draw` and then
 concludes with a call to `finish()` (see the help message for that function).
 """
@@ -147,10 +149,14 @@ function draw(HP::HPlane)
 end
 
 function draw(list::Array{T,1}) where T <: HObject
+    g = plot!()
     for X in list
-        draw(X)
+        g = draw(X)
     end
+    return g
 end
+
+draw(args...) = draw(collect(args))
 
 function draw(T::HTriangle)
     AB = T.A + T.B
