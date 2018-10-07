@@ -28,7 +28,8 @@ function tess7()
     println("Built: $C2")
 
     plot()
-    draw(C2,HPlane())
+    draw(C2)
+    draw(HPlane())
     finish()
 end
 
@@ -53,6 +54,7 @@ function tess5()
 
 
     plot()
-    draw(C2,HPlane())
+    draw(C2)
+    draw(HPlane())
     finish()
 end
