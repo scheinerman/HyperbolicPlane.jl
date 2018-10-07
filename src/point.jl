@@ -1,7 +1,6 @@
 export HPoint, getz, dist, midpoint, RandomHPoint, between, polar
 
 
-RandomHPoint() = HPoint(rand() * exp(2*pi*rand()*im))
 
 """
 `HPoint(z::Complex)` creates a new point in the hyperbolic plane.
@@ -28,8 +27,15 @@ HPoint(z::Number) = HPoint(Complex(z))
 HPoint() = HPoint(0)
 
 function show(io::IO,P::HPoint)
-    print(io,"HPoint($(getz(P)))")
+    r,theta = polar(P)
+    print(io,"HPoint($r, $theta)")
 end
+
+"""
+`RandomHPoint()` generates a point at random in the hyperbolic plane.
+"""
+RandomHPoint() = HPoint(randn(), 2*pi*rand())
+
 
 """
 `getz(P::HPoint)` returns the point (complex number) in the
