@@ -59,6 +59,7 @@ include("polygon.jl")
 include("regular.jl")
 
 include("container.jl")
+include("tesselation.jl")
 
 
 include("isometry.jl")

@@ -26,16 +26,24 @@ function HContainer(args...)
     return C
 end
 
+function in(X::HObject, C::HContainer)::Bool
+    for Z in C.objs
+        if Z==X
+            return true
+        end
+    end
+    return false
+end
+
+
 length(C::HContainer) = length(C.objs)
 
 collect(C::HContainer) = collect(C.objs)
 
 function add!(C::HContainer, X::HObject)::Bool
-    # see if we already have it ... yeah, this is bad
-    for Z in C.objs
-        if X==Z
-            return false
-        end
+    # see if we already have it 
+    if in(X,C)
+        return false
     end
 
     # not here, so OK to add
