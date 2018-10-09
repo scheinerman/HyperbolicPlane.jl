@@ -12,16 +12,34 @@ end
 
 
 """
-`tesselation(n,k,deep)`: Tesselate the hyperbolic plane by regular `n`-gons in which
+`tesselation(n,k,deep=2)`: Tesselate the hyperbolic plane by regular `n`-gons in which
 each vertex is a corner of `k` polygons. `deep` controls how many layers.
+The center of the first `k`-gon is placed at the origin.
+
+May also be called `tesselation(n,k,deep,vertex_centered=true)` in which case
+a vertex of the first `k`-gon is placed at the origin and the tesselation
+is seeded by copies of this first polygon around the origin. 
 """
-function tesselation(n::Int, k::Int, deep::Int=2)
+function tesselation(n::Int, k::Int, deep::Int=2,  vertex_centered::Bool=false)
     theta = 2pi/k
     P = equiangular(n,theta)
     outlist = HContainer()
     todo = HContainer()
-    add!(todo,P)
-    add!(outlist,P)
+
+    if vertex_centered
+        v = P.plist[1]
+        f = move2zero(v)
+        P = f(P)
+        r = rotation(theta)
+        for j=1:k
+            add!(todo,P)
+            add!(outlist,P)
+            P = r(P)
+        end
+    else
+        add!(todo, P)
+        add!(outlist,P)
+    end
 
     for j=1:deep
         new_todo = HContainer()
