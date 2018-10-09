@@ -53,7 +53,7 @@ function angle(A::HPoint, B::HPoint, C::HPoint)
 end
 
 """
-`angles(T::HTriangle)` returns a triple containing the angles
+`angles(T::HTriangle)` returns a *sorted* triple containing the angles
 at the three corners of the triangle.
 """
 function angles(T::HTriangle)

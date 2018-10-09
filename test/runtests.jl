@@ -54,3 +54,25 @@ a,b,c,d = [RandomHPoint() for t=1:4]
 X = HPolygon(a,b,c,d,HPoint(im*eps(1.0)))
 Y = HPolygon(d,c,b,a,HPoint(0))
 @test X==Y
+
+C = HContainer()
+P = RandomHPolygon(5)
+for k=1:10
+    add!(C,P)
+end
+
+T = RandomHTriangle()
+add!(C,T)
+TT = T'
+add!(C,TT')
+@test length(C) == 2
+
+
+a,b,c = endpoints(T)
+@test a+c+b == T
+
+P = RandomHPolygon(3)
+T = HTriangle(P)
+aP = sort(angles(P))
+aT = angles(T)
+@test sum(abs.(aP-aT)) < 100*eps(1.0)

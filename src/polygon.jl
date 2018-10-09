@@ -90,7 +90,30 @@ function RandomHPolygon(n::Int)
     return HPolygon(pts)
 end
 
+"""
+`angles(P::HPolygon)` returns a list of the angles at the vertices of `P`.
 
++ The results are always in the interval `[0,pi]`.
++ The order of the angles is the order of the vertices in `P.plist`.
+"""
+function angles(P::HPolygon)::Array{Float64,1}
+    n = npoints(P)
+    result = zeros(Float64,n)
+    if n < 3
+        return result
+    end
+
+    # first angle
+    result[1] = angle(P.plist[end],P.plist[1],P.plist[2])
+
+    for j=2:n-1
+        result[j] = angle(P.plist[j-1], P.plist[j], P.plist[j+1])
+    end
+
+    result[n] = angle(P.plist[n-1],P.plist[n],P.plist[1])
+
+    return result
+end
 
 adjoint(P::HPolygon) = HPolygon(adjoint.(P.plist))
 
