@@ -13,7 +13,8 @@ The `HyperbolicPlane` module provides basic objects
 plane and visualization in the Poincare Disc.
 
 Documentation is in the
-[Wiki](https://github.com/scheinerman/HyperbolicPlane.jl/wiki).
+[Wiki](https://github.com/scheinerman/HyperbolicPlane.jl/wiki). Also see the
+[examples](https://github.com/scheinerman/HyperbolicPlane.jl/tree/master/examples).
 
 This module requires the `Plots` graphics module (with `GR` backend) as well
 as these:
