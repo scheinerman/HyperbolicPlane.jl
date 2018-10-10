@@ -1,4 +1,4 @@
-export HTriangle, RandomHTriangle, angle, angles, area
+export HTriangle, RandomHTriangle, angle, angles, area, perimeter
 
 """
 `HTriangle(A,B,C)` creates a new hyperbolic triangle.
@@ -34,12 +34,6 @@ function (==)(T::HTriangle,TT::HTriangle)
     Ts = endpoints(T)
     TTs = endpoints(TT)
     return _cyclic_equal(Ts,TTs)|| _cyclic_equal(Ts,reverse(TTs))
-    # return  (a==aa && b==bb && c==cc) ||
-    #         (a==aa && b==cc && c==bb) ||
-    #         (a==bb && b==aa && c==cc) ||
-    #         (a==bb && b==cc && c==bb) ||
-    #         (a==cc && b==aa && c==bb) ||
-    #         (a==cc && b==cc && c==bb)
 end
 
 """
@@ -51,6 +45,12 @@ function angle(A::HPoint, B::HPoint, C::HPoint)
     z = getz(f(C))
     return abs(angle(z))
 end
+
+"""
+`perimeter(T::HTriangle)` or `perimeter(P::HPolygon)` returns the perimeter
+of the figure.
+"""
+perimeter(T::HTriangle) = dist(T.A,T.B) + dist(T.A,T.C) + dist(T.B,T.C)
 
 """
 `angles(T::HTriangle)` returns a *sorted* triple containing the angles

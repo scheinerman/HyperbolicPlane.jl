@@ -115,6 +115,23 @@ function angles(P::HPolygon)::Array{Float64,1}
     return result
 end
 
+
+function perimeter(P::HPolygon)
+    n = npoints(P)
+    if n < 2
+        return 0.0
+    end
+    result = dist(P.plist[1],P.plist[end])
+    if n==2
+        return 2*result
+    end
+    for j=1:n-1
+        result += dist(P.plist[j],P.plist[j+1])
+    end
+    return result
+end 
+
+
 adjoint(P::HPolygon) = HPolygon(adjoint.(P.plist))
 
 """

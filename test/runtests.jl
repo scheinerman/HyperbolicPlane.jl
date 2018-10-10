@@ -76,3 +76,7 @@ T = HTriangle(P)
 aP = sort(angles(P))
 aT = angles(T)
 @test sum(abs.(aP-aT)) < 100*eps(1.0)
+
+T = HPoint(1.0,2.0) + HPoint(3.0,-1) + HPoint(2,0)
+P = HPolygon(T)
+@test perimeter(T) == perimeter(P)
