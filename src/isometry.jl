@@ -28,6 +28,8 @@ function (f::LFT)(X::HPolygon)
     return HPolygon(pts)
 end
 
+(f::LFT)(H::HPlane) = HPlane()
+
 const in_up = LFT(-im, -im, 1, -1)
 const up_in = LFT(-1, im, -1, -im)
 
@@ -156,4 +158,4 @@ end
 
 
 
-reflect_across(X::HPlane) = HPlane()
+reflect_across(X::HPlane, L::Union{HLine,HSegment}) = HPlane()
