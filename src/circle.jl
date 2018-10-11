@@ -1,5 +1,5 @@
 export HCircle, get_center, get_radius, points_on_circle
-export RandomHCircle
+export RandomHCircle, circumference, area
 
 """
 `HCircle(P,r)` creates a new hyperbolic circle centered at `P` with radius `r`.
@@ -62,4 +62,23 @@ function points_on_circle(C::HCircle)
     b = HPoint(r,2pi/3)
     c = HPoint(r,4pi/3)
     return (f(a), f(b), f(c))
+end
+#
+# Circumference = 2 pi sinh r
+# Area = 4 pi sinh2(r/2)
+
+"""
+`circumference(C)` returns the circumference of the circle.
+"""
+function circumference(C::HCircle)
+    r = get_radius(C)
+    return 2*pi*sinh(r)
+end
+
+"""
+`area(C)` returns the area of the circle.
+"""
+function area(C::HCircle)
+    r = get_radius(C)
+    return 4*pi*(sinh(r/2))^2
 end
