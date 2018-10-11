@@ -1,4 +1,4 @@
-export HCircle, get_center, get_radius
+export HCircle, get_center, get_radius, points_on_circle
 export RandomHCircle
 
 """
@@ -35,4 +35,18 @@ get_radius(C::HCircle) = C.rad
 
 function show(io::IO, C::HCircle)
     print(io,"HCircle($(C.ctr),$(C.rad))")
+end
+
+"""
+`points_on_circle(C)` returns a 3-tuple of points
+that lie on the circle `C`.
+"""
+function points_on_circle(C::HCircle)
+    P = get_center(C)
+    f = inv(move2zero(P))
+    r = get_radius(C)
+    a = HPoint(r,0)
+    b = HPoint(r,2pi/3)
+    c = HPoint(r,4pi/3)
+    return (f(a), f(b), f(c))
 end

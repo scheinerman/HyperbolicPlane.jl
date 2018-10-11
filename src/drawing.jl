@@ -158,6 +158,11 @@ end
 
 draw(args...) = draw(collect(args))
 
+function draw(C::HCircle)
+    X,Y,Z= points_on_circle(C)
+    draw_circle(getz(X),getz(Y),getz(Z);C.attr...)
+end
+
 
 function draw(X::Union{HPolygon,HTriangle})
     for S in sides(X)

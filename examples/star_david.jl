@@ -1,3 +1,5 @@
+using HyperbolicPlane, Plots
+
 """
 `star_david(rad=1)` draw a Star of David in the hyperbolic plane.
 """
