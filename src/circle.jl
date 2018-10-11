@@ -19,6 +19,19 @@ struct HCircle <: HObject
 end
 
 """
+`HCircle(A,B,C)` creates a circle that includes the three given points.
+"""
+function HCircle(A::HPoint, B::HPoint, C::HPoint)
+    @assert !collinear(A,B,C) "The three points must be nonlinear"
+    L1 = bisector(A,B)
+    L2 = bisector(A,C)
+    @assert meet_check(L1,L2) "There is no circle containing these three points"
+    P = meet(L1,L2)
+    r = dist(A,P)
+    return HCircle(P,r)
+end
+
+"""
 `RandomHCircle()` creates a random circle.
 """
 RandomHCircle() = HCircle(RandomHPoint(), -log(rand()) )
