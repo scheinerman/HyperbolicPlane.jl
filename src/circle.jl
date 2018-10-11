@@ -65,6 +65,7 @@ function points_on_circle(C::HCircle)
     return (f(a), f(b), f(c))
 end
 
+HCircle(r::Real = 1) = HCircle(HPoint(), r)
 
 """
 `circumference(C::HCircle)` returns the circumference of the circle.
