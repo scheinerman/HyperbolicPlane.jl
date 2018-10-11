@@ -13,7 +13,7 @@ function set_radius(P::HPoint, rad=1)
     P[:marker] = rad
 end
 
-HLinear = Union{HSegment,HLine,HPlane,HTriangle,HPolygon}
+HLinear = Union{HSegment,HLine,HPlane,HTriangle,HPolygon,HCircle}
 
 function set_color(P::HLinear, col=:black)
     P[:linecolor] = col
