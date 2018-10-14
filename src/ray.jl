@@ -18,7 +18,7 @@ struct HRay <: HObject
         return R
     end
 end
-HRay(R::HRay) = HRay(R.pt, R.t)  # copy constructor 
+HRay(R::HRay) = HRay(R.pt, R.t)  # copy constructor
 HRay() = HRay(HPoint(),0.0)
 
 """
@@ -87,6 +87,5 @@ end
 
 ## TO DO LIST
 
-# draw(R::HRay)
 # meet of rays with each other, lines, segments
 # reflect_across

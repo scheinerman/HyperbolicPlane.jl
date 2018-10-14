@@ -114,7 +114,7 @@ function draw(S::HSegment)
     zz = getz(Q)
     w = getz(M)
 
-    if abs(imag( (z-w)/(zz-w) )) < THRESHOLD*eps(1.0)   # they're linear
+    if abs(imag( (z-w)/(zz-w) )) <= THRESHOLD*eps(1.0)   # they're linear
         draw_segment(z,zz;S.attr...)
     else
         draw_arc(z,w,zz; S.attr...)
@@ -134,15 +134,32 @@ function draw(L::HLine)
     xx = cos(t2)
     yy = sin(t2)
 
-    if abs(abs(t1-t2)-pi) < THRESHOLD*eps(1.0)
+    if abs(abs(t1-t2)-pi) <= THRESHOLD*eps(1.0)
         draw_segment(x,y,xx,yy;L.attr...)
     else
         P = point_on_line(L)
         m = getz(P)
         draw_arc(x+im*y, m, xx+im*yy; L.attr...)
     end
-
 end
+
+
+function draw(R::HRay)
+    t = R.t
+    A = get_vertex(R)
+    B = point_on_ray(R)
+
+    a = getz(A)
+    b = getz(B)
+    c = exp(im*t)
+
+    z = (b-a)/(c-a)  # if this is real, we draw a segment
+    if abs(imag(z)) <= THRESHOLD*eps(1.0)
+        draw_segment(a,c;R.attr...)
+    else
+        draw_arc(a,b,c;R.attr...)
+    end
+end 
 
 function draw(HP::HPlane)
     draw_circle(0,0,1; HP.attr...)
