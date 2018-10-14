@@ -20,7 +20,7 @@ struct HLine <: HObject
         return L
     end
 end
-
+HLine(L::HLine) = HLine(H.s,H.t) # copy constructor
 HLine() = HLine(0,pi)  #default line is a horizontal diameter
 
 (==)(L::HLine, LL::HLine) = abs(L.s-LL.s)<THRESHOLD*eps(1.) && abs(L.t-LL.t)<THRESHOLD*eps(1.)

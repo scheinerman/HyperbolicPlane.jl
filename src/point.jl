@@ -23,6 +23,7 @@ struct HPoint <: HObject
     end
 end
 
+HPoint(P::HPoint) = HPoint(getz(P))  # copy constructor
 HPoint(z::Number) = HPoint(Complex(z))
 HPoint() = HPoint(0)
 

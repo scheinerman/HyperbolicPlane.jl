@@ -19,6 +19,7 @@ struct HPolygon <: HObject
     end
 end
 
+
 """
 `add_point!(X::HPolygon, P::HPoint)` adds the point `P`
 as the last point of the polygon `X`
@@ -69,6 +70,7 @@ function HPolygon(pts::Array{HPoint,1})
 end
 
 HPolygon(pts...) = HPolygon(collect(pts))
+HPolygon(X::HPolygon) = HPolygon(X.plist)  # copy constructor
 
 function HPolygon(T::HTriangle)
     a,b,c = endpoints(T)
@@ -129,7 +131,7 @@ function perimeter(P::HPolygon)
         result += dist(P.plist[j],P.plist[j+1])
     end
     return result
-end 
+end
 
 
 adjoint(P::HPolygon) = HPolygon(adjoint.(P.plist))

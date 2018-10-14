@@ -15,7 +15,7 @@ struct HSegment <: HObject
         return S
     end
 end
-
+HSegment(S::HSegment) = HSegment(S.A, S.B)  # copy constructor 
 HSegment(a::Number, B::HPoint) = HSegment(HPoint(a), B)
 HSegment(A::HPoint, b::Number) = HSegment(A, HPoint(b))
 HSegment(a::Number, b::Number) = HSegment(HPoint(a), HPoint(b))

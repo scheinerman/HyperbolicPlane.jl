@@ -1,4 +1,4 @@
-export HRay, RandomHRay, get_vertex
+export HRay, RandomHRay, get_vertex, point_on_ray
 
 """
 `HRay(P::HPoint, t::Real)` returns a ray with vertex `P`
@@ -18,7 +18,7 @@ struct HRay <: HObject
         return R
     end
 end
-
+HRay(R::HRay) = HRay(R.pt, R.t)  # copy constructor 
 HRay() = HRay(HPoint(),0.0)
 
 """
@@ -45,8 +45,48 @@ RandomHRay() = HRay( RandomHPoint(), 2*pi*rand() )
 """
 get_vertex(R::HRay) = R.pt
 
+function (==)(R::HRay, RR::HRay)
+    R.pt == RR.pt && abs(exp(im*R.t) - exp(im*RR.t)) < THRESHOLD * eps(1.0)
+end
+
 function show(io::IO, R::HRay)
     P = R.pt
     t = R.t
     print(io,"HRay($P,$t)")
 end
+
+
+function HLine(R::HRay)
+    f = move2xplus(R)
+    g = inv(f)
+    a = g(-1)
+    b = g(1)
+    s = angle(a)
+    t = angle(b)
+    return HLine(s,t)
+end
+
+"""
+`point_on_ray(R::HRay)` returns a point in the interior of the ray.
+"""
+function point_on_ray(R::HRay)
+    f = move2xplus(R)
+    g = inv(f)
+    P = g(HPoint(1,0))
+    return P
+end
+
+"""
+`in(P::HPoint, R::HRay)` determine if `P` lies on the ray `R`.
+"""
+function in(P::HPoint, R::HRay)
+    f = move2xplus(R)
+    z = f(getz(P))
+    return abs(imag(z)) <= THRESHOLD*eps(1.0)
+end
+
+## TO DO LIST
+
+# draw(R::HRay)
+# meet of rays with each other, lines, segments
+# reflect_across

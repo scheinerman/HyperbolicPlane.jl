@@ -18,6 +18,7 @@ struct HCircle <: HObject
         return C
     end
 end
+HCircle(C::HCircle) = HCircle(C.ctr, C.rad)  # copy constructor 
 
 """
 `HCircle(A,B,C)` creates a circle that includes the three given points.

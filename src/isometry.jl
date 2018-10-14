@@ -116,7 +116,12 @@ function move2xplus(L::HLine)
     return f
 end
 
-
+function move2xplus(R::HRay)
+    A = get_vertex(R)
+    w = getz(A)
+    z = exp(im * R.t)
+    return move2xplus(w,z)
+end 
 
 """
 `reflect_across(X::HObject,L::HSegment/HLine)` returns the object

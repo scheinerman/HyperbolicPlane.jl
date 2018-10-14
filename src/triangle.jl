@@ -17,6 +17,8 @@ struct HTriangle <: HObject
         return S
     end
 end
+HTriangle(T::HTriangle) = HTriangle(T.A,T.B,T.C) # copy constructor
+
 
 """
 `RandomHTriangle()` creates a random triangle via three calls

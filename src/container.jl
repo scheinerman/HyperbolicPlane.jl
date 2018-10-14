@@ -26,6 +26,8 @@ function HContainer(args...)
     return C
 end
 
+HContainer(HC::HContainer) = HContainer(collect(HC.objs)...)  # copy constructor
+
 function in(X::HObject, C::HContainer)::Bool
     for Z in C.objs
         if Z==X
@@ -41,7 +43,7 @@ length(C::HContainer) = length(C.objs)
 collect(C::HContainer) = collect(C.objs)
 
 function add!(C::HContainer, X::HObject)::Bool
-    # see if we already have it 
+    # see if we already have it
     if in(X,C)
         return false
     end
