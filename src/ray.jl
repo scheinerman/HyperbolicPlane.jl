@@ -82,7 +82,7 @@ end
 function in(P::HPoint, R::HRay)
     f = move2xplus(R)
     z = f(getz(P))
-    return abs(imag(z)) <= THRESHOLD*eps(1.0)
+    return abs(imag(z)) <= THRESHOLD*eps(1.0) && real(z) >= -THRESHOLD*eps(1.0)
 end
 
 ## TO DO LIST

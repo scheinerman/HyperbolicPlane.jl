@@ -86,6 +86,19 @@ meet_check(R::HRay, L::HLine)::Bool = meet_check(L,R)
 function meet_check(R::HRay, S::HSegment)::Bool
     LR = HLine(R)
     LS = HLine(S)
+
+    if LR == LS   # check if endpoints match up
+        A,B = endpoints(S)
+        X = get_vertex(R)
+        if A==X
+            return !in(B,R)
+        end
+        if B==X
+            return !in(A,R)
+        end
+        return false
+    end
+    # R and S noncollinear
     if !meet_check(LR,LS)
         return false
     end
@@ -97,6 +110,17 @@ meet_check(S::HSegment, R::HRay)::Bool = meet_check(R,S)
 function meet_check(R::HRay, RR::HRay)::Bool
     L = HLine(R)
     LL = HLine(RR)
+
+    if L==LL   # make sure same vertex, opposite directions
+        if get_vertex(R) != get_vertex(RR)
+            return false
+        end
+        if abs(R.t - RR.t) <= THRESHOLD * eps(1.0)
+            return false
+        end
+        return true
+    end
+
     if !meet_check(L,LL)
         return false
     end
@@ -182,13 +206,26 @@ meet(R::HRay, L::HLine)::HPoint = meet(L,R)
 
 
 function meet(R::HRay, S::HSegment)::HPoint
-    @assert meet_check(R,S) "The line and segment do not intersect at a unique point"
-    return meet(HLine(R, HLine(S)))
+    @assert meet_check(R,S) "The ray and segment do not intersect at a unique point"
+    LR = HLine(R)
+    LS = HLine(S)
+    if LR != LS
+        return meet(HLine(R, HLine(S)))
+    end
+    # must have an end of S as the common point
+    A,B = endpoints(S)
+    if in(A,R)
+        return A
+    end
+    return B
 end
 meet(S::HSegment, R::HRay)::HPoint = meet(R,S)
 
 function meet(R::HRay, RR::HRay)::HPoint
     @assert meet_check(R,RR) "The two rays do not instersect at a unique point"
+    if HLine(R) == HLine(RR)
+        return get_vertex(R)
+    end 
     return meet(HLine(R,HLine(RR)))
 end
 
