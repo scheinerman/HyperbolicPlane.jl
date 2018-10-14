@@ -62,6 +62,14 @@ include("polygon.jl")
 include("circle.jl")
 include("regular.jl")
 
+
+# straight things
+HLinear = Union{HSegment,HLine}  # some day: HRay
+# Round things
+HRound  = Union{HPlane,HCircle}
+
+include("meet.jl")
+
 include("container.jl")
 include("tesselation.jl")
 
