@@ -23,7 +23,7 @@ end
 HLine(L::HLine) = HLine(H.s,H.t) # copy constructor
 HLine() = HLine(0,pi)  #default line is a horizontal diameter
 
-(==)(L::HLine, LL::HLine) = abs(L.s-LL.s)<THRESHOLD*eps(1.) && abs(L.t-LL.t)<THRESHOLD*eps(1.)
+(==)(L::HLine, LL::HLine) = abs(L.s-LL.s)<=THRESHOLD*eps(1.) && abs(L.t-LL.t)<=THRESHOLD*eps(1.)
 
 function show(io::IO, L::HLine)
     s = L.s
@@ -75,7 +75,7 @@ function point_on_line(L::HLine)
     s = L.s
     t = L.t
 
-    if abs(abs(s-t) - pi) < THRESHOLD*eps(1.0)
+    if abs(abs(s-t) - pi) <= THRESHOLD*eps(1.0)
         return HPoint()
     end
 
@@ -103,7 +103,7 @@ function e_center(L::HLine)::Complex
     s = L.s
     t = L.t
 
-    if abs((t-s)-pi) < THRESHOLD*eps(1.0)
+    if abs((t-s)-pi) <= THRESHOLD*eps(1.0)
         return Inf + Inf*im
     end
     P = point_on_line(L)

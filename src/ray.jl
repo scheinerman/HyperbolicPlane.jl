@@ -46,7 +46,7 @@ RandomHRay() = HRay( RandomHPoint(), 2*pi*rand() )
 get_vertex(R::HRay) = R.pt
 
 function (==)(R::HRay, RR::HRay)
-    R.pt == RR.pt && abs(exp(im*R.t) - exp(im*RR.t)) < THRESHOLD * eps(1.0)
+    R.pt == RR.pt && abs(exp(im*R.t) - exp(im*RR.t)) <= THRESHOLD * eps(1.0)
 end
 
 function show(io::IO, R::HRay)

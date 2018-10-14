@@ -4,9 +4,12 @@ export meet_check, meet, ∧
 
 """
 `meet_check(L::HLine,LL::HLine)` determines if two lines intersect.
-Also for two segments, or a line and a segment.
+Also for any combination of lines, segments, or rays.
 """
 function meet_check(L::HLine, LL::HLine)::Bool
+    if L == LL
+        return false
+    end
     s = L.s
     t = L.t
     ss = LL.s
@@ -50,6 +53,41 @@ function meet_check(S::HSegment, SS::HSegment)::Bool
 end
 
 
+function meet_check(L::HLine, R::HRay)::Bool
+    LL = HLine(R)
+    if !meet_check(L,LL)
+        return false
+    end
+    P = meet(L,LL)
+    return in(P,R)
+end
+meet_check(R::HRay, L::HLine)::Bool = meet_check(L,R)
+
+
+function meet_check(R::HRay, S::HSegment)::Bool
+    LR = HLine(R)
+    LS = HLine(S)
+    if !meet_check(LR,LS)
+        return false
+    end
+    P = meet(LR,LS)
+    return in(P,R) && in(P,S)
+end
+meet_check(S::HSegment, R::HRay)::Bool = meet_check(R,S)
+
+function meet_check(R::HRay, RR::HRay)::Bool
+    L = HLine(R)
+    LL = HLine(RR)
+    if !meet_check(L,LL)
+        return false
+    end
+    P = meet(L,LL)
+    return in(P,R) && in(P,RR)
+end
+
+
+################################################################
+
 """
 `meet(L,LL)` finds a point on lines `L` and `LL` or throws an
 error if they don't intersect.  Also for a line and a segment, or
@@ -84,7 +122,7 @@ function meet(L::HLine, LL::HLine)::HPoint
 end
 
 function meet(L::HLine, S::HSegment)::HPoint
-    @assert meet_check(L,S) "The line and segment do not intersect"
+    @assert meet_check(L,S) "The line and segment do not intersect at a unique point"
     p = meet(L, HLine(S))
     return p
 end
@@ -92,9 +130,29 @@ end
 meet(S::HSegment,L::HLine)::HPoint = meet(L,S)
 
 function meet(S::HSegment,SS::HSegment)
-    @assert meet_check(S,SS) "The segments do not intersect"
+    @assert meet_check(S,SS) "The segments do not intersect at a unique point"
     p = meet(HLine(S),HLine(SS))
     return p
 end
+
+
+function meet(L::HLine, R::HRay)::HPoint
+    @assert meet_check(L,R) "The line and ray do not intersect at a unique point"
+    return meet(L, HLine(R))
+end
+meet(R::HRay, L::HLine)::HPoint = meet(L,R)
+
+
+function meet(R::HRay, S::HSegment)::HPoint
+    @assert meet_check(R,S) "The line and segment do not intersect at a unique point"
+    return meet(HLine(R, HLine(S)))
+end
+meet(S::HSegment, R::HRay)::HPoint = meet(R,S)
+
+function meet(R::HRay, RR::HRay)::HPoint
+    @assert meet_check(R,RR) "The two rays do not instersect at a unique point"
+    return meet(HLine(R,HLine(RR)))
+end
+
 
 (∧)(L::HLinear, LL::HLinear)::HPoint = meet(L,LL)

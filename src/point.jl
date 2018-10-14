@@ -105,7 +105,7 @@ end
 `midpoint(p,q)` finds the mid point of the line segment
 from `p` to `q`. Also `midpoint(L::HSegment)`.
 """
-function midpoint(p::HPoint, q::HPoint, thresh=THRESHOLD)::HPoint
+function midpoint(p::HPoint, q::HPoint)::HPoint
     if p==q
         return p
     end
