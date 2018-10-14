@@ -172,3 +172,16 @@ end
 `perpendicular(L)` returns an arbitrary line that is perpendicular to `L`.
 """
 perpendicular(L::HLine)::HLine = perpendicular(L, point_on_line(L))
+perpendicular(P::HPoint, L::HLine) = perpendicular(L,P)
+
+"""
+`dist(P::HPoint,L::HLine)` is the distance from `P`
+to the nearest point on `L`.
+"""
+function dist(P::HPoint,L::HLine)
+    LP = perpendicular(L,P)
+    Q = meet(LP,L)
+    return dist(P,Q)
+end
+
+dist(L::HLine, P::HPoint) = dist(P,L)
