@@ -1,5 +1,5 @@
 export HLine, RandomHLine, point_on_line, ∨
-
+export perpendicular
 
 struct HLine <: HObject
     s::Float64
@@ -149,3 +149,26 @@ function issubset(S::HSegment, L::T) where T <: Union{HSegment,HLine}
     P,Q = endpoints(S)
     return in(P,L) && in(Q,L)
 end
+
+"""
+`perpendicular(L::HLine, P::HPoint)` returns a line that is
+perpendicular to `L` and contains `P`.
+"""
+function perpendicular(L::HLine, P::HPoint)::HLine
+    if in(P,L)   # case when the point is on L
+        f = move2zero(P)
+        g = inv(f)
+        LL = f(L)
+        s = LL.s + pi/2
+        t = LL.t + pi/2
+        return g(HLine(s,t))
+    end
+    # case when P is not on L
+    PP = reflect_across(P,L)
+    return HLine(P,PP)
+end
+
+"""
+`perpendicular(L)` returns an arbitrary line that is perpendicular to `L`.
+"""
+perpendicular(L::HLine)::HLine = perpendicular(L, point_on_line(L))
