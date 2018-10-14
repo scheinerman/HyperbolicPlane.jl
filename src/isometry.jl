@@ -22,12 +22,13 @@ function (f::LFT)(L::HLine)
 end
 
 function (f::LFT)(R::HRay)
-    t = R.t
+    z = exp(im*R.t)
     p = R.pt
-    tt = f(t)
+    zz = f(z)
+    tt = angle(zz)
     pp = f(p)
     return HRay(pp,tt)
-end 
+end
 
 
 
