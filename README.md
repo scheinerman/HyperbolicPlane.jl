@@ -9,7 +9,7 @@
 
 
 The `HyperbolicPlane` module provides basic objects
-(such as points, segments, rays, lines, polygons) in the Hyperbolic
+(such as points, segments, rays, lines, polygons, and circles) in the Hyperbolic
 plane and visualization in the Poincare Disc.
 
 Documentation is in the
