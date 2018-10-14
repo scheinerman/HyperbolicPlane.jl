@@ -57,6 +57,7 @@ adjoint(H::HPlane) = HPlane()
 include("point.jl")
 include("segment.jl")
 include("line.jl")
+include("ray.jl")
 include("triangle.jl")
 include("polygon.jl")
 include("circle.jl")
@@ -64,8 +65,8 @@ include("regular.jl")
 
 
 # straight things
-HLinear = Union{HSegment,HLine}  # some day: HRay
-# Round things
+HLinear = Union{HSegment,HLine,HRay}
+# Round, fillable things
 HRound  = Union{HPlane,HCircle}
 
 include("meet.jl")

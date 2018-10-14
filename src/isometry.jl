@@ -21,6 +21,14 @@ function (f::LFT)(L::HLine)
     return HLine(ss,tt)
 end
 
+function (f::LFT)(R::HRay)
+    t = R.t
+    p = R.pt
+    tt = f(t)
+    pp = f(p)
+    return HRay(pp,tt)
+end 
+
 
 
 function (f::LFT)(X::HPolygon)
