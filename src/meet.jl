@@ -41,6 +41,25 @@ meet_check(S::HSegment,L::HLine)::Bool = meet_check(L,S)
 function meet_check(S::HSegment, SS::HSegment)::Bool
     L = HLine(S)
     LL = HLine(SS)
+
+    if L==LL  # see if they share exactly one endpoint
+        A,B = endpoints(S)
+        AA,BB = endpoints(SS)
+        if A==AA && between(B,A,BB)
+            return true
+        end
+        if A==BB && between(A,B,BB)
+            return true
+        end
+        if B==AA && between(A,B,BB)
+            return true
+        end
+        if B==BB && between(A,B,AA)
+            return true
+        end
+        return false
+    end
+
     if !meet_check(L,LL)
         return false
     end
@@ -131,8 +150,27 @@ meet(S::HSegment,L::HLine)::HPoint = meet(L,S)
 
 function meet(S::HSegment,SS::HSegment)
     @assert meet_check(S,SS) "The segments do not intersect at a unique point"
-    p = meet(HLine(S),HLine(SS))
-    return p
+
+    L = HLine(S)
+    LL = HLine(SS)
+
+    if L != LL
+        p = meet(HLine(S),HLine(SS))
+        return p
+    end
+
+    # special case: segments overlap in an end point
+    A,B = endpoints(S)
+    AA,BB = endpoints(SS)
+
+    if A==AA || A==B
+        return A
+    end
+    if B==AA || B==BB
+        return B
+    end
+    # Should never get here
+    @error "Programming error in meet(HSegment, HSegment)"
 end
 
 
