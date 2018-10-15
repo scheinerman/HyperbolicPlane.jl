@@ -8,6 +8,7 @@ struct HSegment <: HObject
     B::HPoint
     attr::Dict{Symbol,Any}
     function HSegment(a::HPoint,b::HPoint)
+        @assert a!=b "The end points of a segment must be distinct"
         S = new(a,b,Dict{Symbol,Any}())
         set_color(S)
         set_thickness(S)
@@ -15,7 +16,7 @@ struct HSegment <: HObject
         return S
     end
 end
-HSegment(S::HSegment) = HSegment(S.A, S.B)  # copy constructor 
+HSegment(S::HSegment) = HSegment(S.A, S.B)  # copy constructor
 HSegment(a::Number, B::HPoint) = HSegment(HPoint(a), B)
 HSegment(A::HPoint, b::Number) = HSegment(A, HPoint(b))
 HSegment(a::Number, b::Number) = HSegment(HPoint(a), HPoint(b))
