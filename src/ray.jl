@@ -36,9 +36,11 @@ end
 
 
 """
-`RandomHRay()` creates a random ray.
+`RandomHRay()` creates a random ray. `RandomRay(P::HPoint)` creates a
+random ray with vertex `P`.
 """
-RandomHRay() = HRay( RandomHPoint(), 2*pi*rand() )
+RandomHRay(P::HPoint) = HRay(P, 2*pi*rand())
+RandomHRay() = RandomHRay( RandomHPoint() )
 
 """
 `get_vertex(R::HRay)` returns the vertex (end point) of the ray.

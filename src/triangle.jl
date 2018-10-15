@@ -1,4 +1,5 @@
 export HTriangle, RandomHTriangle, angle, angles, area, perimeter
+export interior_point
 
 """
 `HTriangle(A,B,C)` creates a new hyperbolic triangle.
@@ -84,8 +85,21 @@ function (+)(S::HSegment, C::HPoint)
     A,B = endpoints(S)
     return HTriangle(A,B,C)
 end
-
 (+)(C::HPoint, S::HSegment) = S+C
+
+function interior_point(A::HPoint, B::HPoint, C::HPoint)
+    @assert !collinear(A,B,C) "The three points must be noncollinear"
+    X = midpoint(B,C)
+    return midpoint(A,X)
+end
+
+"""
+`interior_point(T::HTriangle)` returns a point in the interior of the triangle.
+"""
+function interior_point(T::HTriangle)
+    A,B,C = endpoints(T)
+    return interior_point(A,B,C)
+end
 
 function show(io::IO,T::HTriangle)
     a,b,c = endpoints(T)
