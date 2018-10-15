@@ -89,17 +89,29 @@ end
 
 function interior_point(A::HPoint, B::HPoint, C::HPoint)
     @assert !collinear(A,B,C) "The three points must be noncollinear"
-    X = midpoint(B,C)
-    return midpoint(A,X)
+    X = A + midpoint(B,C)
+    Y = B + midpoint(A,C)
+    return meet(X,Y)
 end
 
 """
 `interior_point(T::HTriangle)` returns a point in the interior of the triangle.
+The interior point is the intersection of the triangle's medians (the centroid).
 """
 function interior_point(T::HTriangle)
     A,B,C = endpoints(T)
     return interior_point(A,B,C)
 end
+
+"""
+`in(P::HPoint, T::HTriangle)` determines if `P` is in the triangle `T`,
+either in one of its sides or in its interior.
+"""
+function in(P::HPoint, T::HTriangle)::Bool
+    a,b,c = endpoints(T)
+    return same_side(P,a,b+c) && same_side(P,b,a+c) && same_side(P,c,a+b)
+end
+
 
 function show(io::IO,T::HTriangle)
     a,b,c = endpoints(T)

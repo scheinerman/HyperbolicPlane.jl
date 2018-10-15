@@ -1,4 +1,4 @@
-export move2zero, move2xplus, rotation, reflect_across
+export move2zero, move2xplus, rotation, reflect_across, same_side
 
 
 # This code enables LFT's to act on HObjects.
@@ -121,7 +121,7 @@ function move2xplus(R::HRay)
     w = getz(A)
     z = exp(im * R.t)
     return move2xplus(w,z)
-end 
+end
 
 """
 `reflect_across(X::HObject,L::HSegment/HLine)` returns the object
@@ -169,7 +169,25 @@ function reflect_across(X::HLine, L::Union{HLine,HSegment})
     return (inv(f))(Z)
 end
 
-
-
-
 reflect_across(X::HPlane, L::Union{HLine,HSegment}) = HPlane()
+
+"""
+`same_side(P,Q,L)` determines if the points `P` and `Q`
+lie in the same (closed) halfplane as determined by `L`.
+If either point is on `L` then the result is `true`.
+"""
+function same_side(P::HPoint, Q::HPoint, L::HLine)::Bool
+
+    if in(P,L) || in(Q,L)
+        return true
+    end
+
+    f = move2xplus(L)
+    a = imag(f(getz(P)))
+    b = imag(f(getz(Q)))
+
+
+    return sign(a) == sign(b)
+end
+
+same_side(P::HPoint, Q::HPoint, S::Union{HSegment,HRay}) = same_side(P,Q,HLine(S))
