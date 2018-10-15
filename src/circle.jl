@@ -18,7 +18,7 @@ struct HCircle <: HObject
         return C
     end
 end
-HCircle(C::HCircle) = HCircle(C.ctr, C.rad)  # copy constructor 
+HCircle(C::HCircle) = HCircle(C.ctr, C.rad)  # copy constructor
 
 """
 `HCircle(A,B,C)` creates a circle that includes the three given points.
@@ -83,3 +83,9 @@ function area(C::HCircle)
     r = get_radius(C)
     return 4*pi*(sinh(r/2))^2
 end
+
+
+function in(P::HPoint, C::HCircle)::Bool
+    d = dist(P, C.ctr)
+    return d <= C.rad + THRESHOLD*eps(1.0)   # add a bit of slop
+end 
