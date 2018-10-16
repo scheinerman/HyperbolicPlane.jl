@@ -241,7 +241,7 @@ end
 intersected by `R` where `targets` is a list of `HLinear` objects and `R`
 is an `HLinear`.
 """
-function stab_count(R::HLinear, targets::Array{T,1}) where T <: HLinear 
+function stab_count(R::S, targets::Array{T,1}) where {S<:HLinear, T <: HLinear}
     count = 0
     nt = length(targets)
     for j = 1:nt
@@ -258,9 +258,31 @@ end
 or is interior to, the polygon. Be sure that `polygon_check(X)` and
 `is_simple(X)` both return `true`.
 """
-function in(p::HPoint, X::HPolygon)
-    ## PRELIMINARY ##
+function in(p::HPoint, X::HPolygon)::Bool
+    for a in X.plist
+        if p==a
+            return true
+        end
+    end
+
+    ss = sides(X)
+    for s in ss
+        if in(p,s)
+            return true
+        end
+    end
+
+    # Get a ray that doesn't go through a vertex (and therefore not through a side)
     R = RandomHRay(p)
-    slist = sides(X)
-    return stab_count(p,slist)%2 == 1
+    while true
+        for a in X.plist
+            if in(a,R)
+                R = RandomHRay()
+                continue
+            end
+        end
+        break
+    end
+
+    return stab_count(R,ss)%2 == 1
 end
