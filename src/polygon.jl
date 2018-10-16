@@ -1,5 +1,5 @@
 export HPolygon, add_point!, npoints, RandomHPolygon, sides
-export polygon_check
+export polygon_check, is_simple
 
 """
 `HPolygon()` creates a new polygon (with no points).
@@ -227,7 +227,37 @@ function _cyclic_equal(A::Array{S,1}, B::Array{T,1}) where {S,T}
     return false
 end
 
-
-
 (==)(X::HPolygon, Y::HPolygon) = _cyclic_equal(X.plist, Y.plist) ||
     _cyclic_equal(X.plist,reverse(Y.plist))
+
+
+
+"""
+`is_simple(X::HPolygon)` determines if the polygon edges do not self-intersect.
+Be sure the polygon is legit using `polygon_check` first.
+"""
+function is_simple(X::HPolygon)
+    n = npoints(X)
+    if n <= 3
+        return true   # triangles are fine
+    end
+    slist = sides(X)
+    for i=1:n-2
+        for j=i+2:n
+            if i==1 && j==n
+                continue
+            end
+            if meet_check(slist[i], slist[j])
+                return false
+            end
+        end
+    end
+    return true
+end
+
+"""
+`in(p::HPoint, X::HPolygon)` determines if the point lies on the boundary or,
+or is interior to, the polygon. Be sure that `polygon_check(X)` and
+`is_simple(X)` both return `true`.
+"""
+# function in(p::HPoint, X::HPolygon)
