@@ -74,38 +74,39 @@ HPolygon(pts...) = HPolygon(collect(pts))
 HPolygon(X::HPolygon) = HPolygon(X.plist)  # copy constructor
 
 """
-`polygon_check(X::HPolygon)` checks that the polygon is nondegenerate.
+`polygon_check(X::HPolygon,quiet=true)` checks that the polygon is nondegenerate.
 Possible degeneracies are:
 + Repeated vertices
 + Fewer than three distinct vertices
 + Angles that are either 0 degrees or 180 degrees
+If `quiet` is `false`, then a reason for the failed check is printed.
 """
-function polygon_check(X::HPolygon)
+function polygon_check(X::HPolygon, quiet::Bool=true)::Bool
 
     # Check that the endpoints are all distinct
     n = npoints(X)
 
     C = HContainer(X.plist...)
     if length(C) != n
-        @warn "The polygon has repeated vertices"
+        quiet || println("The polygon has repeated vertices")
         return false
     end
 
     if length(C) < 3
-        @warn "The polygon is degenerate (fewer than 3 distinct vertices)"
+        quiet || println("The polygon is degenerate (fewer than 3 distinct vertices)")
         return false
     end
 
     angs = angles(X)
     zero_angs = angs .< (THRESHOLD * eps(1.0))
     if any(zero_angs)
-        @warn "The polygon has 0-degree angles"
+        quiet || println("The polygon has 0-degree angles")
         return false
     end
 
     big_angs = angs .> (pi - THRESHOLD*eps(1.0))
     if any(big_angs)
-        @warn "The polygon has 180-degree angles"
+        quiet || println("The polygon has 180-degree angles")
         return false
     end
 
