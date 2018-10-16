@@ -47,7 +47,7 @@ struct HPlane <: HObject
     end
 end
 
-HPlane(X::HObject) = HPlane()   # copy constructor  
+HPlane(X::HObject) = HPlane()   # copy constructor
 
 (==)(A::HPlane, B::HPlane) = true
 show(io::IO, A::HPlane) = print(io,"HPlane()")
@@ -70,6 +70,8 @@ include("regular.jl")
 HLinear = Union{HSegment,HLine,HRay}
 # Round, fillable things
 HRound  = Union{HPlane,HCircle}
+
+export HLinear, HRound 
 
 include("meet.jl")
 

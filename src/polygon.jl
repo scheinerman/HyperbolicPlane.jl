@@ -1,5 +1,5 @@
 export HPolygon, add_point!, npoints, RandomHPolygon, sides
-export polygon_check, is_simple
+export polygon_check
 
 """
 `HPolygon()` creates a new polygon (with no points).
@@ -254,10 +254,3 @@ function is_simple(X::HPolygon)
     end
     return true
 end
-
-"""
-`in(p::HPoint, X::HPolygon)` determines if the point lies on the boundary or,
-or is interior to, the polygon. Be sure that `polygon_check(X)` and
-`is_simple(X)` both return `true`.
-"""
-# function in(p::HPoint, X::HPolygon)

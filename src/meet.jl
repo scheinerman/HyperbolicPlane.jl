@@ -1,5 +1,5 @@
 # Everything about intersecting
-export meet_check, meet, ∧
+export meet_check, meet, ∧, stab_count, is_simple
 
 
 """
@@ -225,9 +225,42 @@ function meet(R::HRay, RR::HRay)::HPoint
     @assert meet_check(R,RR) "The two rays do not instersect at a unique point"
     if HLine(R) == HLine(RR)
         return get_vertex(R)
-    end 
+    end
     return meet(HLine(R,HLine(RR)))
 end
 
 
 (∧)(L::HLinear, LL::HLinear)::HPoint = meet(L,LL)
+
+
+
+
+
+"""
+`stab_count(R,targets)` is used to count how many items in `targets` are
+intersected by `R` where `targets` is a list of `HLinear` objects and `R`
+is an `HLinear`.
+"""
+function stab_count(R::HLinear, targets::Array{T,1}) where T <: HLinear 
+    count = 0
+    nt = length(targets)
+    for j = 1:nt
+        if meet_check(R,targets[j])
+            count += 1
+        end
+    end
+    return count
+end
+
+
+"""
+`in(p::HPoint, X::HPolygon)` determines if the point lies on the boundary or,
+or is interior to, the polygon. Be sure that `polygon_check(X)` and
+`is_simple(X)` both return `true`.
+"""
+function in(p::HPoint, X::HPolygon)
+    ## PRELIMINARY ##
+    R = RandomHRay(p)
+    slist = sides(X)
+    return stab_count(p,slist)%2 == 1
+end
