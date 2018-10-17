@@ -26,13 +26,25 @@ function visualize(P::HPolygon)
     set_thickness(P,2)
     plot()
     draw(P)
+    f(x) = alt_mod(x,n)
     for i=1:n
-        a = P.plist[i]
-        ii = alt_mod(i+2,n)
+        a = P.plist[f(i-1)]
+        ii = alt_mod(i+1,n)
         b = P.plist[ii]
         S = a+b
-        set_color(S,:red)
-        draw(S)
+        if check_diagonal(P,i)
+            set_color(S,:green)
+        else
+            continue
+        end
+        if in(midpoint(S),P)
+            draw(S)
+        end
+    end
+
+    for pt in P.plist
+        set_radius(pt,2)
+        draw(pt)
     end
     finish()
 end
