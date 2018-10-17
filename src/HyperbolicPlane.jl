@@ -71,10 +71,10 @@ HLinear = Union{HSegment,HLine,HRay}
 # Round, fillable things
 HRound  = Union{HPlane,HCircle}
 
-export HLinear, HRound 
+export HLinear, HRound
 
 include("meet.jl")
-
+include("triangulate.jl")
 include("container.jl")
 include("tesselation.jl")
 

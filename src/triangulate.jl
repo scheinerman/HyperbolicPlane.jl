@@ -1,5 +1,5 @@
 # functions to decompose a proper polygon into triangles
-
+export triangulate, rand_simple
 
 """
 `alt_mod(k,n)` is `mod(k,n)` unless the result is zero,
@@ -10,49 +10,11 @@ function alt_mod(k::Int, n::Int)
     return r==0 ? n : r
 end
 
-
-# DEBUG STUFF
-
-function rand_simple(n::Int)
-    P = RandomHPolygon(n)
-    while !is_simple(P)
-        P = RandomHPolygon(n)
-    end
-    return P
-end
-
-function visualize(P::HPolygon)
-    n = npoints(P)
-    set_thickness(P,2)
-    plot()
-    draw(P)
-    f(x) = alt_mod(x,n)
-    for i=1:n
-        a = P.plist[f(i-1)]
-        ii = alt_mod(i+1,n)
-        b = P.plist[ii]
-        S = a+b
-        if check_diagonal(P,i)
-            set_color(S,:green)
-        else
-            continue
-        end
-        if in(midpoint(S),P)
-            draw(S)
-        end
-    end
-
-    for pt in P.plist
-        set_radius(pt,2)
-        draw(pt)
-    end
-    finish()
-end
-
-
-# see if the edge from v[k-1] to v[k+1] intersects the perimeter
-# return true if this is a good diagonal (i.e., no intersection)
-
+"""
+`check_diagonal(X::HPolygon, k::Int)` checks to see if the diagonal
+between vertices `k-1` and `k+1` (a) does not intersect the boundary of `X`
+and (b) goes through the interior of `X`.
+"""
 function check_diagonal(X::HPolygon, k::Int)::Bool
     n = npoints(X)
 
@@ -90,8 +52,111 @@ function check_diagonal(X::HPolygon, k::Int)::Bool
         if meet_check(dg,S)
             return false
         end
+
+    end
+
+    # check that the diagonal is interior to X
+    m = midpoint(dg)
+    if !in(m,X)
+        return false
+    end
+
+    return true
+end
+
+"""
+`find_ear_diagonal(X::HPolygon)` returns an index `k` such that the
+diagonal from `k-1` to `k+1` passes `check_diagonal`.
+Returns `0` if no ear diagonal is found.
+"""
+function find_ear_diagonal(X::HPolygon)::Int
+    for k=1:npoints(X)
+        if check_diagonal(X,k)
+            return k
+        end
+    end
+    return 0
+end
+
+"""
+`triangulate(X::HPolygon)` returns a list of triangles that
+triangulate `X`. The polygon should have at least three sides, and
+have no bad angles, and not self-intersect.
+"""
+function triangulate(X::HPolygon)::Array{HTriangle,1}
+    n = npoints(X)
+
+    if n < 3
+        return HTriangle[]
+
+    end
+
+    if n == 3
+        T = HTriangle(X)
+        return [T]
     end
 
 
-    return true
+    k = find_ear_diagonal(X)
+    if k==0
+        @error "The polygon cannot be triangulated. Is it simple and proper?"
+    end
+
+    kprev = alt_mod(k-1,n)
+    knext = alt_mod(k+1,n)
+    a = X.plist[kprev]
+    b = X.plist[k]
+    c = X.plist[knext]
+    T = a+b+c
+
+    qlist = [ HPoint(X.plist[j]) for j=1:n if j!=k ]
+    Y = HPolygon(qlist)
+    result = triangulate(Y)
+    pushfirst!(result, T)
+    return result
+end
+
+
+
+
+
+# DEBUG STUFF
+
+function draw_diagonal(X::HPolygon, k::Int)
+    n = npoints(X)
+    kprev = alt_mod(k-1,n)
+    knext = alt_mod(k+1,n)
+    a = X.plist[kprev]
+    b = X.plist[knext]
+    S = a+b
+    set_line_style(S,:dot)
+    draw(S)
+end
+
+
+function visualize(P::HPolygon)
+    n = npoints(P)
+    set_thickness(P,2)
+    plot()
+    draw(P)
+    f(x) = alt_mod(x,n)
+    for i=1:n
+        a = P.plist[f(i-1)]
+        ii = alt_mod(i+1,n)
+        b = P.plist[ii]
+        S = a+b
+        if check_diagonal(P,i)
+            set_color(S,:green)
+        else
+            continue
+        end
+        if in(midpoint(S),P)
+            draw(S)
+        end
+    end
+
+    for pt in P.plist
+        draw(pt)
+    end
+    finish()
 end
