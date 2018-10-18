@@ -1,5 +1,5 @@
 # functions to decompose a proper polygon into triangles
-export triangulate, rand_simple
+export triangulate
 
 """
 `alt_mod(k,n)` is `mod(k,n)` unless the result is zero,
@@ -117,14 +117,17 @@ function triangulate(X::HPolygon)::Array{HTriangle,1}
     return result
 end
 
-
+"""
+`area(X::HPolygon)` returns the area of the polygon, but is only
+reliable if `X` does not self-intersect. See `is_simple`.
+"""
 function area(X::HPolygon)::Float64
     if npoints(X) < 3
         return 0.0
     end
     TT = triangulate(X)
     return sum(area(T) for T in TT)
-end 
+end
 
 
 

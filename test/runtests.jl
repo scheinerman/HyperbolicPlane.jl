@@ -80,3 +80,11 @@ aT = angles(T)
 T = HPoint(1.0,2.0) + HPoint(3.0,-1) + HPoint(2,0)
 P = HPolygon(T)
 @test perimeter(T) == perimeter(P)
+
+
+# Polygon area
+X = equilateral(6,1)
+T = X.plist[1] + X.plist[2] + HPoint()
+AX = area(X)
+AT = area(T)
+@test abs(AX-6AT) <= equality_threshold() * eps(1.0)

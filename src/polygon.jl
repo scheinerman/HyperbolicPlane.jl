@@ -130,11 +130,21 @@ function HTriangle(X::HPolygon)
 end
 
 """
-`RandomHPolygon(n)` create a new `HPolygon` with `n` points chosen
-at random. (It's likely to intersect itself.)
+`RandomHPolygon(n::Int,simple::Bool=false)` create a new `HPolygon` with
+`n` points chosen at random. With `simple` set to `true`, return a polygon
+that does not self-intersect.
 """
-function RandomHPolygon(n::Int)
-    pts = [ RandomHPoint() for j=1:n]
+function RandomHPolygon(n::Int, simple::Bool=false)
+    @assert n>=0 "Number of vertices must be nonnegative"
+    if simple && n>3
+        P = RandomHPolygon(n)
+        while !is_simple(P)
+            P = RandomHPolygon(n)
+        end
+        return P
+    end
+
+    pts = [ RandomHPoint() for j=1:n ]
     return HPolygon(pts)
 end
 
