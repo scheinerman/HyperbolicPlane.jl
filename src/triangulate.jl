@@ -99,10 +99,6 @@ function triangulate(X::HPolygon)::Array{HTriangle,1}
 
     k = find_ear_diagonal(X)
 
-    # DEBUG #
-    println("Delete vertex $k of $n: $(X.plist[k])")
-
-
     if k==0
         @error "The polygon cannot be triangulated. Is it simple and proper?"
     end
@@ -121,6 +117,14 @@ function triangulate(X::HPolygon)::Array{HTriangle,1}
     return result
 end
 
+
+function area(X::HPolygon)::Float64
+    if npoints(X) < 3
+        return 0.0
+    end
+    TT = triangulate(X)
+    return sum(area(T) for T in TT)
+end 
 
 
 

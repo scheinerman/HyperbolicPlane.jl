@@ -21,8 +21,13 @@ function tritest(X::HPolygon)
     for p in X.plist
         a = HPoint(p)
         set_color(a,:red)
-        set_radius(a,3)
+        set_radius(a,1.5)
         draw(a)
-    end 
+    end
     finish()
 end
+#
+#
+# alf = HSegment(HPoint(), HPoint(2,0))
+# bet = HSegment(0.5+0.1im, 0.5-0.0001im)
+# meet_check(alf,bet)

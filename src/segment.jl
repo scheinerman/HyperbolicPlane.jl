@@ -69,6 +69,10 @@ function collinear(a::HPoint, b::HPoint, c::HPoint)::Bool
     return aa == a
 end
 
+
+
+
+
 collinear(a::HPoint, L::HSegment) = collinear(a,endpoints(L)...)
 collinear(L::HSegment, a::HPoint) = collinear(a,L)
 

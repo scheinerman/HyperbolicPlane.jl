@@ -124,10 +124,20 @@ end
 lies on the segment from `a` to `c`.
 """
 function between(a::HPoint, b::HPoint, c::HPoint)::Bool
-    if !collinear(a,b,c)
+    if a==b || b==c
+        return true
+    end
+    f = move2xplus(a,c)
+    aa = getz(f(a))
+    bb = getz(f(b))
+    cc = getz(f(c))
+
+    if abs(imag(bb)) > THRESHOLD * eps(1.0)
         return false
     end
 
-    tri = dist(a,b)+dist(b,c)-dist(a,c)
-    return abs(tri) <= THRESHOLD * eps(1.0)
+    if real(aa)-THRESHOLD*eps(1.0) <= real(bb) <= real(cc)+THRESHOLD*eps(1.0)
+        return true
+    end
+    return false
 end
