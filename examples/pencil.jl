@@ -4,7 +4,7 @@ using HyperbolicPlane, Plots
 `pencil(s::Real, nlines::Int, ncycles::Int)` draws a pencil of `nlines`
 lines with common ideal point `exp(im*s)` and `ncycles` Horocycles that
 are orthogonal to those lines.
-"""
+""" 
 function pencil(s::Real=1, nlines::Int=5, ncycles::Int=5)
     plot()
 
