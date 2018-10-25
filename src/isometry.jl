@@ -30,6 +30,17 @@ function (f::LFT)(R::HRay)
     return HRay(pp,tt)
 end
 
+function (f::LFT)(HC::Horocycle)
+    p = HC.pt
+    t = HC.t
+
+    pp = f(p)
+    z = exp(t*im)
+    zz = f(z)
+    tt = angle(zz)
+
+    return Horocycle(pp,tt)
+end
 
 
 function (f::LFT)(X::HPolygon)
