@@ -64,12 +64,12 @@ include("triangle.jl")
 include("polygon.jl")
 include("circle.jl")
 include("regular.jl")
-
+include("horocycle.jl")
 
 # straight things
 HLinear = Union{HSegment,HLine,HRay}
 # Round, fillable things
-HRound  = Union{HPlane,HCircle}
+HRound  = Union{HPlane,HCircle,Horocycle}
 
 export HLinear, HRound
 

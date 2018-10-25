@@ -68,6 +68,13 @@ end
 
 HCircle(r::Real = 1) = HCircle(HPoint(), r)
 
+function(==)(C::HCircle, CC::HCircle)
+    if abs(C.rad - CC.rad) > THRESHOLD*eps(1.0)
+        return false
+    end
+    return C.ctr == CC.ctr
+end 
+
 """
 `circumference(C::HCircle)` returns the circumference of the circle.
 """
@@ -88,4 +95,4 @@ end
 function in(P::HPoint, C::HCircle)::Bool
     d = dist(P, C.ctr)
     return d <= C.rad + THRESHOLD*eps(1.0)   # add a bit of slop
-end 
+end

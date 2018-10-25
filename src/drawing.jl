@@ -11,6 +11,9 @@ function draw_circle(x::Real, y::Real, r::Real; opts...)
     plot!(f,g,0,2pi;opts...)
 end
 
+draw_circle(z::Complex, r::Real; opts...) =
+    draw_circle(real(z),imag(z), r; opts...)
+
 
 function draw_circle(a::Complex, b::Complex, c::Complex; opts...)
     z = find_center(a,b,c)
@@ -159,7 +162,7 @@ function draw(R::HRay)
     else
         draw_arc(a,b,c;R.attr...)
     end
-end 
+end
 
 function draw(HP::HPlane)
     draw_circle(0,0,1; HP.attr...)
@@ -178,6 +181,12 @@ draw(args...) = draw(collect(args))
 function draw(C::HCircle)
     X,Y,Z= points_on_circle(C)
     draw_circle(getz(X),getz(Y),getz(Z);C.attr...)
+end
+
+function draw(HC::Horocycle)
+    c = euclidean_center(HC)
+    r = abs(getz(HC.pt)-c)
+    draw_circle(c,r;HC.attr...)
 end
 
 
