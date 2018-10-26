@@ -32,6 +32,8 @@ struct Horocycle <: HObject
 end
 Horocycle() = Horocycle(HPoint(), 0)
 
+Horocycle(t::Real,p::HPoint) = Horocycle(p,t)
+
 # Copy constructor
 Horocycle(HC::Horocycle) = Horocycle(HC.pt, HC.t)
 
