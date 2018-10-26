@@ -1,4 +1,5 @@
 export move2zero, move2xplus, rotation, reflect_across, same_side
+export in_up, up_in
 
 
 # This code enables LFT's to act on HObjects.

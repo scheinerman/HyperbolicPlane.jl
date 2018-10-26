@@ -1,5 +1,5 @@
 export HLine, RandomHLine, point_on_line, ∨
-export perpendicular
+export perpendicular, points_on_line
 
 struct HLine <: HObject
     s::Float64
@@ -69,34 +69,42 @@ end
 
 
 """
-`point_on_line(L)` returns a (finite) point on the hyperbolic line `L`.
+`point_on_line(L)` returns a point on the hyperbolic line `L`.
+
+See also: `points_on_line`.
 """
 function point_on_line(L::HLine)
+    PP = points_on_line(L,1)
+    return PP[1]
+end
+
+"""
+`points_on_line(L,n)` returns a list of `n`
+distinct points on the line `L`.
+
+See also: `point_on_line`.
+"""
+function points_on_line(L::HLine,n::Int=2)
+    @assert n>0 "$n must be positive"
     s = L.s
     t = L.t
+    a = exp(s*im)
+    b = exp(t*im)
+    ab = exp(im*(s+t)/2)
 
-    if abs(abs(s-t) - pi) <= THRESHOLD*eps(1.0)
-        return HPoint()
-    end
+    # move the three ideal points to -1, 0, 1
+    f = LFT(a,-1,ab,0,b,1)
+    g = inv(f)
 
-    # del is 1/2 the size of the angle between s and t
-    del = (t-s)/2
-    if del>pi
-        del -= pi
-    end
-
-    r = abs(sec(del))-abs(tan(del))
-
-    # bi is the angle bisector
-
-    bi = (s+t)/2
-    if (bi-s)>pi/2
-        bi -= pi
-    end
-
-    z = r * exp(bi * im)
-    return HPoint(z)
+    tlist = [ pi*j/(n+1) for j=1:n ]
+    zlist = [ exp(t*im) for t in tlist ]
+    Plist = [ HPoint(g(z)) for z in zlist ]
+    return Plist
 end
+
+
+
+
 
 # Find the complex point that's the euclidean center of the line as drawn
 function e_center(L::HLine)::Complex
