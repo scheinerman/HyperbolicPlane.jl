@@ -81,6 +81,23 @@ T = HPoint(1.0,2.0) + HPoint(3.0,-1) + HPoint(2,0)
 P = HPolygon(T)
 @test perimeter(T) == perimeter(P)
 
+# point on line stuff
+L = RandomHLine()
+P = point_on_line(L)
+@test in(P,L)
+
+PP = points_on_line(L,2)
+P,Q = PP
+@test in(P,L) && in(Q,L)
+
+R = RandomHRay()
+V = get_vertex(R)
+P = point_on_ray(R)
+@test in(P,R)
+A = midpoint(V,P)
+@test in(A,R)
+
+
 
 # Polygon area
 X = equilateral(6,1)
