@@ -1,88 +1,90 @@
+import SimpleDrawing: draw, finish
+
 export draw, finish
 
 
 # The draw_ functions play a supporting role to the `draw` function
 # which we may call on HObjects
-
-
-function draw_circle(x::Real, y::Real, r::Real; opts...)
-    f(t) = r*cos(t) + x
-    g(t) = r*sin(t) + y
-    plot!(f,g,0,2pi;opts...)
-end
-
-draw_circle(z::Complex, r::Real; opts...) =
-    draw_circle(real(z),imag(z), r; opts...)
-
-
-function draw_circle(a::Complex, b::Complex, c::Complex; opts...)
-    z = find_center(a,b,c)
-    r = abs(a-z)
-    x,y = reim(z)
-    draw_circle(x,y,r; opts...)
-end
-
-function draw_arc(x::Real, y::Real, r::Real, t1::Real, t2::Real; opts...)
-    f(t) = r*cos(t) + x
-    g(t) = r*sin(t) + y
-
-    t1 = mod(t1, 2pi)
-    t2 = mod(t2, 2pi)
-
-    if t1==t2
-        return
-    end
-
-    if t1 > t2
-        t1,t2 = t2,t1
-    end
-
-    if t2-t1>pi
-        t1 += 2pi
-    end
-
-    plot!(f,g,t1,t2;opts...)
-end
-
-
-function draw_arc(a::Complex, b::Complex, c::Complex; opts...)
-    z = find_center(a,b,c)
-    r = abs(b-z)
-    t1 = angle(a-z)
-    t2 = angle(c-z)
-    draw_arc(real(z), imag(z), r, t1, t2; opts...)
-end
-
-
-
-
-
-function draw_segment(a::Real,b::Real,c::Real,d::Real; opts...)
-    plot!([a,c],[b,d];opts...)
-end
-
-function draw_segment(a::Complex, b::Complex; opts...)
-    x,y = reim(a)
-    xx,yy = reim(b)
-    draw_segment(x,y,xx,yy; opts...)
-end
-
-function draw_point(x::Real, y::Real; opts...)
-    plot!([x],[y];opts...)
-end
-
-draw_point(z::Complex; opts...) = draw_point(real(z),imag(z); opts...)
+#
+#
+# function draw_circle(x::Real, y::Real, r::Real; opts...)
+#     f(t) = r*cos(t) + x
+#     g(t) = r*sin(t) + y
+#     plot!(f,g,0,2pi;opts...)
+# end
+#
+# draw_circle(z::Complex, r::Real; opts...) =
+#     draw_circle(real(z),imag(z), r; opts...)
+#
+#
+# function draw_circle(a::Complex, b::Complex, c::Complex; opts...)
+#     z = find_center(a,b,c)
+#     r = abs(a-z)
+#     x,y = reim(z)
+#     draw_circle(x,y,r; opts...)
+# end
+#
+# function draw_arc(x::Real, y::Real, r::Real, t1::Real, t2::Real; opts...)
+#     f(t) = r*cos(t) + x
+#     g(t) = r*sin(t) + y
+#
+#     t1 = mod(t1, 2pi)
+#     t2 = mod(t2, 2pi)
+#
+#     if t1==t2
+#         return
+#     end
+#
+#     if t1 > t2
+#         t1,t2 = t2,t1
+#     end
+#
+#     if t2-t1>pi
+#         t1 += 2pi
+#     end
+#
+#     plot!(f,g,t1,t2;opts...)
+# end
+#
+#
+# function draw_arc(a::Complex, b::Complex, c::Complex; opts...)
+#     z = find_center(a,b,c)
+#     r = abs(b-z)
+#     t1 = angle(a-z)
+#     t2 = angle(c-z)
+#     draw_arc(real(z), imag(z), r, t1, t2; opts...)
+# end
 
 
 
-
-"""
-`finish()` is used to clean up a drawing after various calls to `draw`.
-It removes the axes and the grid lines, and sets the aspect ratio to one.
-"""
-function finish()
-    plot!(aspectratio=1, legend=false, axis=false, grid=false)
-end
+#
+#
+# function draw_segment(a::Real,b::Real,c::Real,d::Real; opts...)
+#     plot!([a,c],[b,d];opts...)
+# end
+#
+# function draw_segment(a::Complex, b::Complex; opts...)
+#     x,y = reim(a)
+#     xx,yy = reim(b)
+#     draw_segment(x,y,xx,yy; opts...)
+# end
+#
+# function draw_point(x::Real, y::Real; opts...)
+#     plot!([x],[y];opts...)
+# end
+#
+# draw_point(z::Complex; opts...) = draw_point(real(z),imag(z); opts...)
+#
+#
+#
+#
+# """
+# `finish()` is used to clean up a drawing after various calls to `draw`.
+# It removes the axes and the grid lines, and sets the aspect ratio to one.
+# """
+# function finish()
+#     plot!(aspectratio=1, legend=false, axis=false, grid=false)
+# end
 
 
 #############################################################

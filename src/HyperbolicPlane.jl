@@ -1,6 +1,6 @@
 module HyperbolicPlane
 
-using LinearFractionalTransformations, Plots
+using LinearFractionalTransformations, Plots, SimpleDrawing
 
 export HObject, HPlane, equality_threshold
 
@@ -81,7 +81,6 @@ include("tesselation.jl")
 
 include("isometry.jl")
 include("attributes.jl")
-include("arc-maker.jl")
 include("drawing.jl")
 
 end #end of module
