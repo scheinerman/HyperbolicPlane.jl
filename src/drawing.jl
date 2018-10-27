@@ -1,6 +1,6 @@
 import SimpleDrawing: draw, finish
 
-# export draw, finish
+export draw, finish
 
 
 """
