@@ -89,7 +89,7 @@ function draw(list::Array{T,1}) where T <: HObject
     return g
 end
 
-draw(args...) = draw(collect(args))
+# draw(args...) = draw(collect(args))
 
 function draw(C::HCircle)
     X,Y,Z= points_on_circle(C)
