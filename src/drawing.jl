@@ -1,6 +1,5 @@
-import SimpleDrawing: draw, finish
-
-export draw, finish
+import SimpleDrawing: newdraw, finish
+export newdraw, finish, draw
 
 
 """
@@ -12,12 +11,12 @@ The typical sequence of drawing starts by clearing the screen with the `plot()` 
 (from the `Plots` module), then various to calls to `draw` and then
 concludes with a call to `finish()` (see the help message for that function).
 """
-function draw(P::HPoint)
+function SimpleDrawing.draw(P::HPoint)
     x,y = reim(getz(P))
     draw_point(x,y;P.attr...)
 end
 
-function draw(S::HSegment)
+function SimpleDrawing.draw(S::HSegment)
     P,Q = endpoints(S)
 
     if P==Q
@@ -37,7 +36,7 @@ function draw(S::HSegment)
     end
 end
 
-function draw(L::HLine)
+function SimpleDrawing.draw(L::HLine)
     t1 = L.s
     t2 = L.t
 
@@ -60,7 +59,7 @@ function draw(L::HLine)
 end
 
 
-function draw(R::HRay)
+function SimpleDrawing.draw(R::HRay)
     t = R.t
     A = get_vertex(R)
     B = point_on_ray(R)
@@ -77,11 +76,11 @@ function draw(R::HRay)
     end
 end
 
-function draw(HP::HPlane)
+function SimpleDrawing.draw(HP::HPlane)
     draw_circle(0,0,1; HP.attr...)
 end
 
-function draw(list::Array{T,1}) where T <: HObject
+function SimpleDrawing.draw(list::Array{T,1}) where T <: HObject
     g = plot!()
     for X in list
         g = draw(X)
@@ -89,21 +88,21 @@ function draw(list::Array{T,1}) where T <: HObject
     return g
 end
 
-# draw(args...) = draw(collect(args))
+SimpleDrawing.draw(args...) = draw(collect(args))
 
-function draw(C::HCircle)
+function SimpleDrawing.draw(C::HCircle)
     X,Y,Z= points_on_circle(C)
     draw_circle(getz(X),getz(Y),getz(Z);C.attr...)
 end
 
-function draw(HC::Horocycle)
+function SimpleDrawing.draw(HC::Horocycle)
     c = euclidean_center(HC)
     r = abs(getz(HC.pt)-c)
     draw_circle(c,r;HC.attr...)
 end
 
 
-function draw(X::Union{HPolygon,HTriangle})
+function SimpleDrawing.draw(X::Union{HPolygon,HTriangle})
     for S in sides(X)
         copy_attr(S,X)
         draw(S)
@@ -111,4 +110,4 @@ function draw(X::Union{HPolygon,HTriangle})
     draw()
 end
 
-draw(C::HContainer) = draw(collect(C))
+SimpleDrawing.draw(C::HContainer) = draw(collect(C))
