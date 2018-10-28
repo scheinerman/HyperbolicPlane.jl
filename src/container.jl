@@ -1,4 +1,4 @@
-export HContainer, add!
+export HContainer, add_object!
 
 import Base: collect, delete!
 
@@ -22,7 +22,7 @@ end
 
 function HContainer(args...)
     C = HContainer()
-    add!(C,args...)
+    add_object!(C,args...)
     return C
 end
 
@@ -42,7 +42,10 @@ length(C::HContainer) = length(C.objs)
 
 collect(C::HContainer) = collect(C.objs)
 
-function add!(C::HContainer, X::HObject)::Bool
+"""
+`add_object!(C::HContainer, X::HObject)` adds `X` to the container `C`.
+"""
+function add_object!(C::HContainer, X::HObject)::Bool
     # see if we already have it
     if in(X,C)
         return false
@@ -53,12 +56,17 @@ function add!(C::HContainer, X::HObject)::Bool
     return true
 end
 
-function add!(C::HContainer, args...)
+function add_object!(C::HContainer, args...)
     for X in args
-        add!(C,X)
+        add_object!(C,X)
     end
 end
 
+"""
+`delete!(C::HContainer, X::HObject)` deletes `X` from the
+container `C` returning `true` if successful (or `false` if
+`X` was not in the container).
+"""
 function delete!(C::HContainer, X::HObject)::Bool
     # see if we already have it; if so, delete
     for Z in C.objs

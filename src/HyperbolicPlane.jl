@@ -52,8 +52,6 @@ HPlane(X::HObject) = HPlane()   # copy constructor
 (==)(A::HPlane, B::HPlane) = true
 show(io::IO, A::HPlane) = print(io,"HPlane()")
 
-adjoint(H::HPlane) = HPlane()
-(-)(H::HPlane) = HPlane()
 
 
 include("point.jl")

@@ -1,5 +1,5 @@
 
-export Horocycle
+export Horocycle, RandomHorocycle
 
 """
 `Horocycle(P::HPoint, theta::Real)` create the horocycle
@@ -36,6 +36,13 @@ Horocycle(t::Real,p::HPoint) = Horocycle(p,t)
 
 # Copy constructor
 Horocycle(HC::Horocycle) = Horocycle(HC.pt, HC.t)
+
+"""
+`RandomHorocycle()` creates a random horocycle by choosing
+a point at random by `RandomHPoint` and a random ideal
+point (uniformly between 0 and 2π).
+"""
+RandomHorocycle() = Horocycle(RandomHPoint(), 2*pi*rand())
 
 function show(io::IO, HC::Horocycle)
     print(io,"Horocycle($(HC.pt),$(HC.t))")

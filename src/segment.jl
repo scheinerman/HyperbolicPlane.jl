@@ -44,17 +44,6 @@ end
 midpoint(L::HSegment) = midpoint(endpoints(L)...)
 length(L::HSegment) = dist(endpoints(L)...)
 
-function adjoint(L::HSegment)
-    a,b = endpoints(L)
-    return HSegment(a',b')
-end
-
-function (-)(L::HSegment)
-    a,b = endpoints(L)
-    return HSegment(-a,-b)
-end
-
-
 """
 `collinear` checks if the arguments are collinear. Arguments are:
 + `a,b,c`: three points

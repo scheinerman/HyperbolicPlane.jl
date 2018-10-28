@@ -32,22 +32,22 @@ function tesselation(n::Int, k::Int, deep::Int=2,  vertex_centered::Bool=false)
         P = f(P)
         r = rotation(theta)
         for j=1:k
-            add!(todo,P)
-            add!(outlist,P)
+            add_object!(todo,P)
+            add_object!(outlist,P)
             P = r(P)
         end
     else
-        add!(todo, P)
-        add!(outlist,P)
+        add_object!(todo, P)
+        add_object!(outlist,P)
     end
 
     for j=1:deep
         new_todo = HContainer()
         for X in todo.objs
-            add!(outlist,X)
+            add_object!(outlist,X)
             for Y in expander(X)
                 if !in(Y,outlist)
-                    add!(new_todo,Y)
+                    add_object!(new_todo,Y)
                 end
             end
         end

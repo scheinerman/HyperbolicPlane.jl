@@ -51,7 +51,18 @@ end
 
 (f::LFT)(H::HPlane) = HPlane()
 
+
+# Various LFT creation functions.
+
+
+"""
+`in_up` is a `LFT` that maps the Poincaré disk to the upper half plane.
+"""
 const in_up = LFT(-im, -im, 1, -1)
+
+"""
+`up_in` is a `LFT` that maps the upper half plane to the Poincaré disk.
+"""
 const up_in = LFT(-1, im, -1, -im)
 
 
@@ -203,3 +214,82 @@ function same_side(P::HPoint, Q::HPoint, L::HLine)::Bool
 end
 
 same_side(P::HPoint, Q::HPoint, S::Union{HSegment,HRay}) = same_side(P,Q,HLine(S))
+
+
+## UNARY MINUS
+
+"""
+`-X` where `X` is a hyperbolic object is a new object reflected through
+the origin.
+"""
+(-)(H::HPlane) = HPlane()
+(-)(P::HPoint) = HPoint(-getz(P))
+(-)(P::HPolygon) = HPolygon((-).(P.plist))
+(-)(C::HCircle) = HCircle( -(C.ctr), C.rad )
+
+function (-)(L::HSegment)
+    a,b = endpoints(L)
+    return HSegment(-a,-b)
+end
+
+function (-)(R::HRay)
+    p = -R.pt
+    t = R.t + pi
+    return HRay(p,t)
+end
+
+function (-)(T::HTriangle)
+    a,b,c = endpoints(T)
+    return HTriangle(-a,-b,-c)
+end
+
+function (-)(L::HLine)
+    s = L.s
+    t = L.t
+    return HLine(pi+s,pi+t)
+end
+
+function (-)(HC::Horocycle)
+    pt = -HC.pt
+    t  = HC.t + pi
+    return Horocycle(pt,t)
+end
+
+
+## ADJOINT
+"""
+`adjoint(X::HObject)` (that is, `X'`) returns a new `X` that is reflected
+across the `x`-axis.
+"""
+adjoint(H::HPlane) = HPlane()
+adjoint(P::HPoint) = HPoint(getz(P)')
+adjoint(P::HPolygon) = HPolygon(adjoint.(P.plist))
+adjoint(C::HCircle) = HCircle( (C.ctr)', C.rad )
+
+function adjoint(L::HSegment)
+    a,b = endpoints(L)
+    return HSegment(a',b')
+end
+
+function adjoint(L::HLine)
+    s = L.s
+    t = L.t
+    return HLine(-s,-t)
+end
+
+function adjoint(R::HRay)
+    p = (R.pt)'
+    t = -(R.t)
+    return HRay(p,t)
+end
+
+function adjoint(HC::Horocycle)
+    pt = (HC.pt)'
+    t  = -HC.t
+    return Horocycle(pt,t)
+end
+
+function adjoint(T::HTriangle)
+    a,b,c = endpoints(T)
+    return HTriangle(a',b',c')
+end

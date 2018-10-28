@@ -65,16 +65,6 @@ function angles(T::HTriangle)
     return sort(alist)
 end
 
-function adjoint(T::HTriangle)
-    a,b,c = endpoints(T)
-    return HTriangle(a',b',c')
-end
-
-function (-)(T::HTriangle)
-    a,b,c = endpoints(T)
-    return HTriangle(-a,-b,-c)
-end
-
 
 """
 `area(T::HTriangle)` returns the area of the triangle.

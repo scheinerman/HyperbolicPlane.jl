@@ -58,13 +58,13 @@ Y = HPolygon(d,c,b,a,HPoint(0))
 C = HContainer()
 P = RandomHPolygon(5)
 for k=1:10
-    add!(C,P)
+    add_object!(C,P)
 end
 
 T = RandomHTriangle()
-add!(C,T)
+add_object!(C,T)
 TT = T'
-add!(C,TT')
+add_object!(C,TT')
 @test length(C) == 2
 
 

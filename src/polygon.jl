@@ -190,13 +190,6 @@ function perimeter(P::HPolygon)
 end
 
 
-adjoint(P::HPolygon) = HPolygon(adjoint.(P.plist))
-
-"""
-`-X` for an `HObject` reflects `X` through the origin.
-"""
-(-)(P::HPolygon) = HPolygon((-).(P.plist))
-
 
 function show(io::IO,X::HPolygon)
     print(io,"HPolygon with $(npoints(X)) points")

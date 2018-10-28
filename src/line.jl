@@ -139,18 +139,6 @@ function in(P::HPoint, L::HLine)
     return P == PP
 end
 
-function adjoint(L::HLine)
-    s = L.s
-    t = L.t
-    return HLine(-s,-t)
-end
-
-function (-)(L::HLine)
-    s = L.s
-    t = L.t
-    return HLine(pi+s,pi+t)
-end
-
 
 
 function issubset(S::HSegment, L::T) where T <: Union{HSegment,HLine}
