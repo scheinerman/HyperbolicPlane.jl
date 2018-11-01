@@ -1,12 +1,12 @@
 module HyperbolicPlane
 
-using LinearFractionalTransformations, Plots, SimpleDrawing
+using LinearFractionalTransformations, Plots, SimpleDrawing, AbstractLattices
 
 export HObject, HPlane, equality_threshold
 
 import Base: getindex, setindex!, isequal, length, ==, show, adjoint, -, in, +
 import Base: angle, in, issubset
-import AbstractLattices: ∨
+import AbstractLattices: ∨, dist
 
 # this is faster than `abs(z)`
 _mag(z::Number)::Real = real(z*z')
