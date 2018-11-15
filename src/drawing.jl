@@ -88,7 +88,13 @@ function SimpleDrawing.draw(list::Array{T,1}) where T <: HObject
     return g
 end
 
-SimpleDrawing.draw(args...) = draw(collect(args))
+# SimpleDrawing.draw(args...) = draw(collect(args))
+
+function SimpleDrawing.draw(HO::HObject, args...)
+    draw(HO)
+    draw(collect(args))
+end 
+
 
 function SimpleDrawing.draw(C::HCircle)
     X,Y,Z= points_on_circle(C)
