@@ -1,4 +1,4 @@
-# Hyperbolic Plane
+# HyperbolicPlane
 
 
 [![Build Status](https://travis-ci.org/scheinerman/HyperbolicPlane.jl.svg?branch=master)](https://travis-ci.org/scheinerman/HyperbolicPlane.jl)
