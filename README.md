@@ -4,9 +4,6 @@
 [![Build Status](https://travis-ci.com/scheinerman/HyperbolicPlane.jl.svg?branch=master)](https://travis-ci.com/scheinerman/HyperbolicPlane.jl)
 
 
-[![codecov.io](http://codecov.io/github/scheinerman/HyperbolicPlane.jl/coverage.svg?branch=master)](http://codecov.io/github/scheinerman/HyperbolicPlane.jl?branch=master)
-
-
 
 The `HyperbolicPlane` module provides basic objects
 (such as points, segments, rays, lines, polygons, and circles) in the Hyperbolic
