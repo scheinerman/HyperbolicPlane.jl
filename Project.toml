@@ -1,6 +1,6 @@
 name = "HyperbolicPlane"
 uuid = "0111da9b-5c18-507b-82d1-0701aba3485a"
-version = "0.2.4"
+version = "0.2.5"
 
 [deps]
 AbstractLattices = "398f06c4-4d28-53ec-89ca-5b2656b7603d"
