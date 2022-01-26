@@ -19,7 +19,9 @@ function (f::LFT)(L::HLine)
     zz = f(z)
     ss = angle(ww)
     tt = angle(zz)
-    return HLine(ss,tt)
+    LL = HLine(ss,tt)
+    copy_attr(LL,L)
+    return LL
 end
 
 function (f::LFT)(R::HRay)
@@ -28,7 +30,9 @@ function (f::LFT)(R::HRay)
     zz = f(z)
     tt = angle(zz)
     pp = f(p)
-    return HRay(pp,tt)
+    RR = HRay(pp,tt)
+    copy_attr(RR,R)
+    return RR
 end
 
 function (f::LFT)(HC::Horocycle)
@@ -40,13 +44,17 @@ function (f::LFT)(HC::Horocycle)
     zz = f(z)
     tt = angle(zz)
 
-    return Horocycle(pp,tt)
+    HHCC = Horocycle(pp,tt)
+    copy_attr(HHCC,HC)
+    return HHCC
 end
 
 
 function (f::LFT)(X::HPolygon)
     pts = f.(X.plist)
-    return HPolygon(pts)
+    XX = HPolygon(pts)
+    copy_attr(XX,X)
+    return XX
 end
 
 (f::LFT)(H::HPlane) = HPlane()
@@ -155,14 +163,20 @@ function reflect_across(p::HPoint, L::Union{HLine,HSegment})
     z = getz(p)
     zz = f(z)'
     w = (inv(f))(zz)
-    return HPoint(w)
+
+    pp = HPoint(w)
+    copy_attr(pp,p)
+    return pp
 end
 
 function reflect_across(S::HSegment, L::Union{HLine,HSegment})
     A,B = endpoints(S)
     AA = reflect_across(A,L)
     BB = reflect_across(B,L)
-    return HSegment(AA,BB)
+
+    SS = HSegment(AA,BB)
+    copy_attr(SS,S)
+    return SS
 end
 
 function reflect_across(T::HTriangle, L::Union{HLine,HSegment})
@@ -170,12 +184,16 @@ function reflect_across(T::HTriangle, L::Union{HLine,HSegment})
     AA = reflect_across(A,L)
     BB = reflect_across(B,L)
     CC = reflect_across(C,L)
-    return HTriangle(AA,BB,CC)
+    TT = HTriangle(AA,BB,CC)
+    copy_attr(TT,T)
+    return TT
 end
 
 function reflect_across(X::HPolygon, L::Union{HLine,HSegment})
     pts = [ reflect_across(p,L) for p in X.plist ]
-    return HPolygon(pts)
+    XX = HPolygon(pts)
+    copy_attr(XX,X)
+    return XX
 end
 
 function reflect_across(X::HLine, L::Union{HLine,HSegment})
@@ -229,30 +247,40 @@ the origin.
 
 function (-)(L::HSegment)
     a,b = endpoints(L)
-    return HSegment(-a,-b)
+    LL = HSegment(-a,-b)
+    copy_attr(LL,L)
+    return LL
 end
 
 function (-)(R::HRay)
     p = -R.pt
     t = R.t + pi
-    return HRay(p,t)
+    RR = HRay(p,t)
+    copy_attr(RR,R)
+    return RR
 end
 
 function (-)(T::HTriangle)
     a,b,c = endpoints(T)
-    return HTriangle(-a,-b,-c)
+    TT = HTriangle(-a,-b,-c)
+    copy_attr(TT,T)
+    return TT
 end
 
 function (-)(L::HLine)
     s = L.s
     t = L.t
-    return HLine(pi+s,pi+t)
+    LL = HLine(pi+s,pi+t)
+    copy_attr(LL,L)
+    return LL
 end
 
 function (-)(HC::Horocycle)
     pt = -HC.pt
     t  = HC.t + pi
-    return Horocycle(pt,t)
+    HHCC = Horocycle(pt,t)
+    copy_attr(HHCC,HC)
+    return HHCC
 end
 
 
@@ -268,28 +296,38 @@ adjoint(C::HCircle) = HCircle( (C.ctr)', C.rad )
 
 function adjoint(L::HSegment)
     a,b = endpoints(L)
-    return HSegment(a',b')
+    LL = HSegment(a',b')
+    copy_attr(LL,L)
+    return LL
 end
 
 function adjoint(L::HLine)
     s = L.s
     t = L.t
-    return HLine(-s,-t)
+    LL = HLine(-s,-t)
+    copy_attr(LL,L)
+    return LL
 end
 
 function adjoint(R::HRay)
     p = (R.pt)'
     t = -(R.t)
-    return HRay(p,t)
+    RR = HRay(p,t)
+    copy_attr(RR,R)
+    return RR
 end
 
 function adjoint(HC::Horocycle)
     pt = (HC.pt)'
     t  = -HC.t
-    return Horocycle(pt,t)
+    HHCC = Horocycle(pt,t)
+    copy_attr(HHCC,HC)
+    return HHCC
 end
 
 function adjoint(T::HTriangle)
     a,b,c = endpoints(T)
-    return HTriangle(a',b',c')
+    TT = HTriangle(a',b',c')
+    copy_attr(TT,T)
+    return TT
 end
