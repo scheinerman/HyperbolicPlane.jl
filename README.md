@@ -1,8 +1,6 @@
 # HyperbolicPlane
 
 
-[![Build Status](https://travis-ci.com/scheinerman/HyperbolicPlane.jl.svg?branch=master)](https://travis-ci.com/scheinerman/HyperbolicPlane.jl)
-
 
 
 The `HyperbolicPlane` module provides basic objects
