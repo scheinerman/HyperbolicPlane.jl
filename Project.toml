@@ -1,6 +1,6 @@
 name = "HyperbolicPlane"
 uuid = "0111da9b-5c18-507b-82d1-0701aba3485a"
-version = "0.2.6"
+version = "0.2.7"
 
 [deps]
 AbstractLattices = "398f06c4-4d28-53ec-89ca-5b2656b7603d"
@@ -12,7 +12,7 @@ SimpleDrawing = "d78a06e8-ae74-583c-9a07-0d6572347000"
 AbstractLattices = "0.2, 0.3"
 julia = "1"
 Plots = "1"
-LinearFractionalTransformations = "0.1"
+LinearFractionalTransformations = "0.1, 0.2"
 SimpleDrawing = "0.2"
 
 [extras]
